@@ -4,9 +4,9 @@ module units_mod
 	implicit none
 	private
 	
-	integer,parameter::Nu = 23
+	integer,parameter::Nu = 25
 	
-	character(5),dimension(Nu),parameter::names = [ character(5):: &
+	character(16),dimension(Nu),parameter::names = [ character(16):: &
 		& 'm','mm','um','nm','pm','fm','A', &
 		& 's','ms','us','ns','ps','fs', &
 		& 'J','eV', &
