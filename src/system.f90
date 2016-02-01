@@ -43,7 +43,7 @@ module system_mod
 	
 	real(wp)::Teta = 0.0_wp
 		!! Thermostat DOF
-	real(wp)::Pepsilon = 0.01_wp
+	real(wp)::Pepsilon = 0.0_wp
 		!! Barostat DOF
 	real(wp),dimension(3)::box
 		!! Bounds of the simulation box

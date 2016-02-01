@@ -29,8 +29,8 @@ contains
 		call initialize()
 		
 		enableLennardJones = .true.
-		call setThermostat(.true.,T0,10.0_wp*dt)
-		call setBarostat(.true.,P0,5.0E10_wp*dt)
+		call setThermostat(.false.,T0,10.0_wp*dt)
+		call setBarostat(.false.,P0,5.0E10_wp*dt)
 		call buildSystem(convert(5.181_wp,'A','m'),[7,7,7],T0) !5.26_wp
 		
 		call doBox()
