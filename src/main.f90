@@ -34,7 +34,7 @@ contains
 		enableLennardJones = .true.
 		call setThermostat(.false.,T0,10.0_wp*dt)
 		call setBarostat(.false.,P0, 5.0E10_wp*dt)
-		call buildSystem(convert(lattice_const,'A','m'),[5,5,5],T0)
+		call buildSystem(convert(lattice_const,'A','m'),[2,2,2],T0)
 		
 		call doBox()
 		call writeLammpsData('Ar.data')
@@ -44,9 +44,11 @@ contains
 	subroutine runSim
 		integer::k
 		do k=0,N_steps
-			if(mod(k,skip_thermo)==0) call thermoReport(k)
-			if(mod(k,skip_dump  )==0) call writeStepXYZ(iou_xyz)
-			if(mod(k,skip_neighbor)==0) call updateAllNeighbors()
+			call mullerPlathe()
+			if(mod(k,skip_mullerPlathe)==0) call mullerplatheReport(k)
+			!if(mod(k,skip_thermo)==0) call thermoReport(k)
+			if(mod(k,skip_dump)==0) call writeStepXYZ(iou_xyz)
+			!if(mod(k,skip_neighbor)==0) call updateAllNeighbors()
 			
 			call velocityVerlet(dt)
 			call doBox()
@@ -83,5 +85,27 @@ contains
 			& convert(fnorm(),'N','eV/A')
 		c = c+1
 	end subroutine thermoReport
+	
+	subroutine mullerplatheReport(k)
+		integer,intent(in)::k
+		integer::i, j, c
+		write(*,*)
+		if (mod(c,32)==0) then
+			write(stdout,'(1X, 1A7, 1I3)') "Step N:", k
+		end if
+		
+		write(*,'(1X, 1A4, 3A5, 3A10, 3A10, 1A11)') 'k', 'r(x)', 'r(y)', 'r(z)', 'v(x)', 'v(y)', 'v(z)', 'KE(i)', 'KE()', &
+			& 'TT(i)','Temp()'
+		do i=1, size(atoms)
+			write(stdout,'(1X, 1I4, 3F5.1, 3F10.4, 3F10.4, 1F10.4)') atoms(i)%atom_id, &
+				& [(convert(atoms(i)%r(j),'m','A'),j=1,3)], &
+				& [(convert(atoms(i)%v(j),'m/s', 'A/ps'), j=1,3)], &
+				& convert(KEi(i), 'J', 'eV'), &
+				& convert(KE(), 'J', 'eV'), &
+				& atoms(i)%tt, temperature()
+			c = c+1
+		end do
+			
+	end subroutine mullerplatheReport
 
 end program main_prg 

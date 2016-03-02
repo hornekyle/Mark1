@@ -49,6 +49,8 @@ module settings_mod
 		!! Number of steps between xyz file dumps
 	integer::skip_neighbor
 		!! Number of steps between neighbor list rebuilds
+	integer::skip_mullerPlathe
+		!! Number of steps between muller-plathe report
 	real(wp)::lattice_const
 	
 	real(wp)::T0
@@ -73,7 +75,8 @@ contains
 		lj%coeffs = [E0,S0]
 		
 		!= Simulation =!
-		N_steps       = 20
+		N_steps       = 2
+		skip_mullerPlathe = 1
 		skip_thermo   = 1
 		skip_dump     = 1
 		skip_neighbor = 20

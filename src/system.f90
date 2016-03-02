@@ -25,7 +25,12 @@ module system_mod
 			!! Atomic acceleration
 		real(wp),dimension(3)::f
 			!! Atomic force
+		real(wp)::tt
+			!! Atom temperature
+		real(wp)::mm
+			!! Atom momentum
 		integer::atom_id
+			!! Atom id
 		integer::t
 			!! Atom type
 		integer,dimension(:),allocatable::neighbors
@@ -95,7 +100,6 @@ contains
  						atoms(idx)%r = a*(real([i,j,k]-1,wp)+rcell(1:3,l))
  						idx = idx+1
  					end do
- 					
  				end do
  			end do
  		end do
@@ -117,6 +121,7 @@ contains
  		call updateAllNeighbors()
  		
  		do k=1,size(atoms)
+			atoms(k)%atom_id = k
  			atoms(k)%a = -delV(k)/types(atoms(k)%t)%m
  			atoms(k)%f = -delV(k)
  		end do
@@ -444,5 +449,18 @@ contains
 		
 		o = (real(size(atoms),wp)*kB*temperature()-virial()/3.0_wp)/product(box)
 	end function pressure
+	
+	subroutine mullerPlathe()
+	!1. make list of atoms in region (z, brute force)
+	!2. measure temperature in region at time
+	!3. swap momentum of atoms
+	integer:: i, j, k
+	
+	do i=1, size(atoms)
+		atoms(i)%mm = types(atoms(i)%t)%m*norm2(atoms(i)%v)**2
+		atoms(i)%tt = atoms(i)%mm/(3.0_wp*kB)
+	end do
+	
+	end subroutine mullerPlathe
 
 end module system_mod
