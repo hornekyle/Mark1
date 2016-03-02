@@ -61,53 +61,6 @@ module system_mod
 	
 contains
 
-	subroutine SimpleSystem (delta, N, Ti)
-	implicit none
-	integer, intent(in):: N
-		!! N - number of atoms
-	real(wp), intent(in):: delta, Ti
-	
-	integer::i, j, k
-
-	box = delta*N
-		
-	allocate(types(1))
-	allocate(atoms(N))
-	
-	types%m = convert(39.948_wp,'u','kg')
-	types%atom_name = 'Ar'
-	atoms(:)%t = 1
-	
-	do k=1, N
-		atoms(k)%atom_id = k
-		atoms(k)%r = atoms(k)%r + k*[1.0,0.0,0.0]*delta - [1.0,0.0,0.0]*delta/2.0_wp
-	end do
-	
-	
-	do k=1,N
- 		!! Same treatment of velocities as in buildSystem
- 		call random_number(atoms(k)%v)
- 		atoms(k)%v = 2.0_wp*atoms(k)%v-1.0_wp
- 		do while(norm2(atoms(k)%v)>1.0_wp .and. norm2(atoms(k)%v)<0.1_wp)
- 			call random_number(atoms(k)%v)
- 			atoms(k)%v = 2.0_wp*atoms(k)%v-1.0_wp
- 		end do
- 		atoms(k)%v = atoms(k)%v/norm2(atoms(k)%v)
- 		atoms(k)%v = atoms(k)%v*sqrt(2.0_wp*kB*Ti/types(atoms(k)%t)%m)*abs(randomNormal()+1.0_wp)
- 	end do
- 	forall(k=1:3) atoms(:)%v(k) = atoms(:)%v(k)-sum(atoms(:)%v(k))/real(size(atoms),wp)
- 	call updateAllNeighbors()
- 	do k=1,N
- 		atoms(k)%a = -delV(k)/types(atoms(k)%t)%m
- 		atoms(k)%f = -delV(k)
- 	end do
- 	ts = 0
- 	t  = 0.0_wp
- 	
-	end subroutine SimpleSystem
-	
-	
-
 	subroutine buildSystem(a,N,Ti)
 		implicit none
 		real(wp), dimension(3)::posit, velocity, force
@@ -167,19 +120,8 @@ contains
  			atoms(k)%a = -delV(k)/types(atoms(k)%t)%m
  			atoms(k)%f = -delV(k)
  		end do
- 		
-! 		do k=1, 9
-!			read(iou_lammps,*)
-!		end do
-			
-!		do k=1, size(atoms)
-!			read(1, '(1I4, 3F5.1, 6F13.9)') atoms(k)%atom_id, posit, velocity, force
-!			atoms(k)%r = posit/1.0E10_wp
-!			atoms(k)%v = velocity/1.0E-2_wp
-!			atoms(k)%f = force/6.24150636309E8_wp
-!			atoms(k)%a = -delV(k)/types(atoms(k)%t)%m
-!		end do
- 		ts = -0 !! CHANGE BACK TO ZERO!!
+
+ 		ts = 0
  		t  = 0.0_wp
 	end subroutine buildSystem
 
@@ -222,14 +164,6 @@ contains
 		do k=1,size(atoms)
 			write(iou,'(1I9,1X,1X,3E25.15)') k,[( convert(atoms(k)%v(i),'m/s','A/ps') , i=1,3 )]
 		end do
-		
-		write(iou,'(1A)') ''
-		write(iou,'(1A)') 'Forces'
-		write(iou,'(1A)') ''
-		do k=1,size(atoms)
-			write(iou,'(1I9,1X,1X,3E25.15)') k,[( convert(atoms(k)%f(i),'N','eV/A') , i=1,3 )]
-		end do
-		
 		close(iou)
 	end subroutine writeLammpsData
 
@@ -243,9 +177,7 @@ contains
 	contains
 	
 		pure subroutine doLennardJones(o)
-			!real(wp),intent(inout)::o
 			real(wp),intent(out)::o
-			
 			real(wp),dimension(3)::d
 			real(wp)::l,E0,S0
 			integer::j,aj
@@ -261,19 +193,12 @@ contains
 				o = o+( 0.5_wp ) * ( 4.0_wp*E0*l**6*(l**6-1.0_wp) )
 					!! Only include half of the bond energy for each atom in the bond
 			end do
-			!do j=1,size(atoms)
-			!	if(j==i) cycle
-			!	d = deltaR(atoms(j),atoms(i))
-			!	l = S0/norm2(d)
-			!	o = o+(0.5_wp) * 4.0_wp*E0*(l**12.0_wp-l**6.0_wp)
-			!end do
-			
 		end subroutine doLennardJones
 	
 	end function V
 
 	pure function delV(i) result(o)
-	!! Total force on atom
+		!! Total force on atom
 		integer,intent(in)::i
 		real(wp),dimension(3)::o
 		real(wp),dimension(3)::r
@@ -286,7 +211,6 @@ contains
 			r  = deltaR(atoms(i),atoms(aj))
 			if( norm2(r)>lj%cutoff ) cycle
 			o = o+delVij(i,aj,r)
-			!o = o + atoms(i)%f
 		end do
 	end function delV
 	
@@ -301,10 +225,8 @@ contains
 		o = sqrt(o)
 	end function fnorm
 	
-
-
 	pure function delVij(i,j,d) result (o)
-	!! Force between two atoms
+		!! Force between two atoms
 		integer,intent(in)::i,j
 		real(wp),dimension(3),intent(in)::d
 		real(wp),dimension(3)::o
@@ -427,7 +349,6 @@ contains
 			r  = deltaR(atoms(i),atoms(aj))
 			if( norm2(r)>lj%cutoff ) cycle
 			F = delVij(i,aj,r)
-			!F = atoms(i)%f
 			o = o-0.5_wp*(matmul(asCol(r),asRow(F))+matmul(asCol(F),asRow(r)))
 		end do
 	
@@ -456,10 +377,6 @@ contains
 		real(wp),dimension(3)::Fij,rij
 		
 		o = 0.0_wp
-
-! 		do i=1,size(atoms)
-! 			o = o+ ( Ei(i)*atoms(i)%v-matmul(Si(i),atoms(i)%v) )
-! 		end do
 
 		do i=1,size(atoms)
 			o = o+Ei(i)*atoms(i)%v

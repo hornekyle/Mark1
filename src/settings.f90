@@ -67,16 +67,16 @@ contains
 		
 		E0 = kB*convert(125.7_wp,'K','K')
 		S0 = convert(3.345_wp,'A','m')
-		lj%cutoff = 3.0_wp*S0 !3.0
-		lj%skin = 0.5_wp*S0	!0.5
+		lj%cutoff = 3.0_wp*S0
+		lj%skin = 0.5_wp*S0
 		
 		lj%coeffs = [E0,S0]
 		
 		!= Simulation =!
-		N_steps       = 0
+		N_steps       = 20
 		skip_thermo   = 1
 		skip_dump     = 1
-		skip_neighbor = 10 !20
+		skip_neighbor = 20
 		lattice_const = 5.40_wp
 		
 		T0 = convert(45.0_wp,'K','K')

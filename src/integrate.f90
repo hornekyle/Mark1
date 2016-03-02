@@ -54,7 +54,7 @@ contains
 	end subroutine setBarostat
 
 	subroutine velocityVerlet(dt)
-	! Velocity-Verlet integration
+		!! Velocity-Verlet integration
 		real(wp),intent(in)::dt
 		
 		real(wp),dimension(3)::d
@@ -86,7 +86,7 @@ contains
 	end subroutine velocityVerlet
 
 	subroutine leapFrog(dt)
-	! Leap frog integration
+		!! Leap frog integration
 		real(wp),intent(in)::dt
 		
 		real(wp),dimension(3)::d,ao
@@ -110,7 +110,7 @@ contains
 	end subroutine leapFrog
 
 	subroutine doBox
-	! returns moving atoms into the simulation box
+		!! Returns moving atoms into the simulation box
 		integer::k
 		
 		forall(k=1:3)
@@ -120,14 +120,14 @@ contains
 	end subroutine doBox
 
 	pure function DetaDt() result(o)
-	! calculates damping parameter("eta") change over time.
+		!! Calculates damping parameter("eta") change over time
 		real(wp)::o
 		
 		o = (1.0_wp/thermostat%tau**2)*(temperature()/thermostat%set-1.0_wp)
 	end function DetaDt
 
 	function DepsilonDt() result(o)
-	! calculates damping parameter("eta") change over time.
+		!! Calculates damping parameter("eta") change over time.
 		real(wp)::o
 		
 		o = (1.0_wp/barostat%tau**2)*(pressure()/barostat%set-1.0_wp)
