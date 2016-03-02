@@ -18,7 +18,7 @@ program main_prg
 		!! I/O unit for thermo report output
 	integer::iou_lammps=1
 		!! I/O unit to read lammps dump file
-	
+		
 	call setupSim()
 	call runSim()
 	call endSim()
@@ -34,7 +34,7 @@ contains
 		enableLennardJones = .true.
 		call setThermostat(.false.,T0,10.0_wp*dt)
 		call setBarostat(.false.,P0, 5.0E10_wp*dt)
-		call buildSystem(convert(lattice_const,'A','m'),[2,2,2],T0)
+		call buildSystem(convert(lattice_const,'A','m'),latM,T0)
 		
 		call doBox()
 		call writeLammpsData('Ar.data')
@@ -46,10 +46,10 @@ contains
 		do k=0,N_steps
 			call mullerPlathe()
 			if(mod(k,skip_mullerPlathe)==0) call mullerplatheReport(k)
-			!if(mod(k,skip_thermo)==0) call thermoReport(k)
 			if(mod(k,skip_dump)==0) call writeStepXYZ(iou_xyz)
-			!if(mod(k,skip_neighbor)==0) call updateAllNeighbors()
-			
+			if(mod(k,skip_neighbor)==0) call updateAllNeighbors()
+			!if(mod(k,skip_thermo)==0) call thermoReport(k)
+		
 			call velocityVerlet(dt)
 			call doBox()
  		end do
@@ -88,24 +88,53 @@ contains
 	
 	subroutine mullerplatheReport(k)
 		integer,intent(in)::k
-		integer::i, j, c
-		write(*,*)
-		if (mod(c,32)==0) then
-			write(stdout,'(1X, 1A7, 1I3)') "Step N:", k
-		end if
+		integer::i, j, p
+		integer, save::c=0
+		real(wp),dimension(3)::r
+		real(wp)::d, centre, radius
+		character(len=100) writeFormat1, writeFormat2
 		
-		write(*,'(1X, 1A4, 3A5, 3A10, 3A10, 1A11)') 'k', 'r(x)', 'r(y)', 'r(z)', 'v(x)', 'v(y)', 'v(z)', 'KE(i)', 'KE()', &
-			& 'TT(i)','Temp()'
+		radius = lj%cutoff+lj%skin
+		centre = convert(latM(1)*lattice_const/2.0_wp, 'A', 'm')
+		writeFormat1 = '(1X, 2A5, 2X, 3A6, 3A10, 3A10, 2A10)'
+		writeFormat2 = '(1X, 1I5, 1I5, 2X, 3F6.1, 3F10.4, 3F10.4, 2F10.4)'
+		p = 0
+				
+		write(stdout,'(1X, 1A9, 3F7.2)') "Box size:", [(convert(box(j), 'm', 'A'), j=1,3)]
+		write(stdout,'(1X, 1A12, 1F8.4)') "Cutoff+skin:", convert((lj%cutoff+lj%skin),'m','A')
+		write(stdout,'(1X, 1A16, 1I4)') "Number of atoms:", size(atoms)
+		write(stdout,'(1X, 1A17, /)') "Units used: metal"
+		
+		if (mod(c,10000)==0) write(stdout,'(1X, 1A7, 1I3)') "Step N:", k
+		
+		write(*,writeFormat1)'#','id','r(x)', 'r(y)', 'r(z)', 'v(x)', 'v(y)','v(z)','KE(i)', 'KE()', 'TT(i)','Temp()','Distance'
+						
 		do i=1, size(atoms)
-			write(stdout,'(1X, 1I4, 3F5.1, 3F10.4, 3F10.4, 1F10.4)') atoms(i)%atom_id, &
-				& [(convert(atoms(i)%r(j),'m','A'),j=1,3)], &
-				& [(convert(atoms(i)%v(j),'m/s', 'A/ps'), j=1,3)], &
-				& convert(KEi(i), 'J', 'eV'), &
-				& convert(KE(), 'J', 'eV'), &
-				& atoms(i)%tt, temperature()
-			c = c+1
+			if (convert(abs(checkRegion(centre, atoms(i))), 'm', 'A') <= convert(radius, 'm', 'A')) then
+				p = p+1
+				if (mod(p, 30)==0) write(*,writeFormat1)'#', 'id', 'r(x)', 'r(y)', 'r(z)', 'v(x)', 'v(y)', 'v(z)', 'KE(i)', &
+					& 'KE()', 'TT(i)','Temp()', 'Distance'
+				write(stdout, writeFormat2) p, atoms(i)%atom_id, &
+					& [(convert(atoms(i)%r(j),'m','A'),j=1,3)], &
+					& [(convert(atoms(i)%v(j),'m/s', 'A/ps'), j=1,3)], &
+					& convert(KEi(i), 'J', 'eV'), &
+					& convert(KE(), 'J', 'eV'), &
+					& atoms(i)%tt, temperature(), &
+					& convert(abs(checkRegion(centre, atoms(i))), 'm', 'A')
+			end if
 		end do
-			
+		c = c+1
+							
 	end subroutine mullerplatheReport
+	
+	pure function checkRegion(centre, a1) result (o)
+		type(atom_t),intent(in)::a1
+		real(wp), intent(in)::centre
+		real(wp):: d1, d2, o
+				
+		d1 = (centre - a1%r(1))**2
+		d2 = (centre - a1%r(2))**2
+		o = sqrt(d1+d2)
+	end function checkRegion
 
 end program main_prg 

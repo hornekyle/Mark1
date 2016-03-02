@@ -35,6 +35,7 @@ module system_mod
 			!! Atom type
 		integer,dimension(:),allocatable::neighbors
 			!! Nearest neighbors
+
 	end type
 	
 	
@@ -252,7 +253,6 @@ contains
 			
 			l = S0/norm2(d)
 			o = o+24.0_wp*E0/sum(d*d)*(l**6)*(1.0_wp-2.0_wp*l**6)*d
-			!o = atoms(i)%f
 		end subroutine doLennardJones
 		
 	end function delVij
@@ -454,12 +454,26 @@ contains
 	!1. make list of atoms in region (z, brute force)
 	!2. measure temperature in region at time
 	!3. swap momentum of atoms
-	integer:: i, j, k
+	integer::i
+	real(wp)::o
+	
+	o = 0.0
 	
 	do i=1, size(atoms)
-		atoms(i)%mm = types(atoms(i)%t)%m*norm2(atoms(i)%v)**2
-		atoms(i)%tt = atoms(i)%mm/(3.0_wp*kB)
+		atoms(i)%tt = calculateAtomTemperature(i)
 	end do
+	
+	contains
+	
+		pure function calculateAtomTemperature(i) result(o)
+			integer, intent(in):: i
+			real(wp):: mm, o
+									
+			mm = types(atoms(i)%t)%m*norm2(atoms(i)%v)**2
+			o = mm/(3.0_wp*kB)
+						
+		end function calculateAtomTemperature
+	
 	
 	end subroutine mullerPlathe
 

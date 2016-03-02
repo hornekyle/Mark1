@@ -52,6 +52,7 @@ module settings_mod
 	integer::skip_mullerPlathe
 		!! Number of steps between muller-plathe report
 	real(wp)::lattice_const
+	integer, dimension(3)::latM
 	
 	real(wp)::T0
 		!! Target temperature [K]
@@ -69,18 +70,19 @@ contains
 		
 		E0 = kB*convert(125.7_wp,'K','K')
 		S0 = convert(3.345_wp,'A','m')
-		lj%cutoff = 3.0_wp*S0
+		lj%cutoff = 2.5_wp*S0
 		lj%skin = 0.5_wp*S0
 		
 		lj%coeffs = [E0,S0]
 		
 		!= Simulation =!
-		N_steps       = 2
+		N_steps       = 0
 		skip_mullerPlathe = 1
 		skip_thermo   = 1
 		skip_dump     = 1
 		skip_neighbor = 20
 		lattice_const = 5.40_wp
+		latM = [5,5,5]
 		
 		T0 = convert(45.0_wp,'K','K')
 		P0 = convert(1.0_wp,'bar','Pa')
