@@ -45,7 +45,8 @@ contains
 		integer::k
 		do k=0,N_steps
 			call sub1()
-			if(mod(k,skip_mullerPlathe)==0) call mullerplatheReport(k)
+			if(mod(k,skip_mullerPlathe)==0) call mullerplatheReport(k,3)
+				!! 1 - all, 2 - cold region, 3 - hot (mid) region along Z
 			if(mod(k,skip_dump)==0) call writeStepXYZ(iou_xyz)
 			if(mod(k,skip_neighbor)==0) call updateAllNeighbors()
 			!if(mod(k,skip_thermo)==0) call thermoReport(k)
@@ -86,8 +87,8 @@ contains
 		c = c+1
 	end subroutine thermoReport
 	
-	subroutine mullerplatheReport(k)
-		integer,intent(in)::k
+	subroutine mullerplatheReport(k, region)
+		integer,intent(in)::k, region
 		integer::i, j, p
 		integer, save::c=0
 		real(wp),dimension(3)::r
@@ -96,8 +97,8 @@ contains
 						
 		radius = lj%cutoff+lj%skin
 		centre = latM(1)*lattice_const*0.5_wp
-		writeFormat1 = '(1X, /, 2A5, 2X, 3A6, 3A10, 3A10, 1X, 2A10)'
-		writeFormat2 = '(1X, 1I5, 1I5, 2X, 3F6.1, 3F10.4, 3F10.4, 2F10.4)'
+		writeFormat1 = '(1X, /, 2A5, 2X, 3A6, 6A10, 1X, 2A10)'
+		writeFormat2 = '(1X, 2I5, 2X, 3F6.1, 8F10.4)'
 		p = 0
 				
 		write(stdout,'(1X, 1A9, 3F7.2)') "Box size:", [(convert(box(j), 'm', 'A'), j=1,3)]
@@ -106,29 +107,66 @@ contains
 		write(stdout,'(1X, 1A17, /)') "Units used: metal"
 		
 		if (mod(c,10000)==0) write(stdout,'(1X, 1A7, 1I3)') "Step N:", k
+				
+		if (region == 1) then
+			!! print all
+			write(*,*) "=====Printing whole region along Z axis====="
+			write(*,writeFormat1)'#','id','r(x)', 'r(y)', 'r(z)', 'v(x)', 'v(y)','v(z)','KE(i)', 'KE()', 'TT(i)','Temp()','Distance'
+			do i=1, size(atoms)
+				if (abs(fn2(centre, atoms(i))) <= radius) then
+					p = p+1
+				call printRegion(i,p,writeFormat1,writeFormat2)
+				end if
+			end do
 		
-		write(*,writeFormat1)'#','id','r(x)', 'r(y)', 'r(z)', 'v(x)', 'v(y)','v(z)','KE(i)', 'KE()', 'TT(i)','Temp()','Distance'
-						
-		do i=1, size(atoms)
-			if (abs(fn2(centre, atoms(i))) <= radius .and. &
-				& (atoms(i)%r(3) >= centre-(lattice_const*0.5_wp+1E-11_wp) .and. &
-				&  atoms(i)%r(3) <= centre+(lattice_const*0.5_wp+1E-11_wp))) then
-				p = p+1
-
-				if (mod(p, 30)==0) write(*,writeFormat1)'#', 'id', 'r(x)', 'r(y)', 'r(z)', 'v(x)', 'v(y)', 'v(z)', 'KE(i)', &
-					& 'KE()', 'TT(i)','Temp()', 'Distance'
-				write(stdout, writeFormat2) p, atoms(i)%atom_id, &
-					& [(convert(atoms(i)%r(j),'m','A'),j=1,3)], &
-					& [(convert(atoms(i)%v(j),'m/s', 'A/ps'), j=1,3)], &
-					& convert(KEi(i), 'J', 'eV'), &
-					& convert(KE(), 'J', 'eV'), &
-					& atoms(i)%tt, temperature(), &
-					& convert(abs(fn2(centre, atoms(i))), 'm', 'A')
-			end if
-		end do
-		write(*,*)
+		else if (region == 2) then
+			!! print COLD region
+			write(*,*) "=====Printing cold region along Z axis====="
+			write(*,writeFormat1)'#','id','r(x)', 'r(y)', 'r(z)', 'v(x)', 'v(y)','v(z)','KE(i)', 'KE()', 'TT(i)','Temp()','Distance'
+			do i=1,size(atoms)
+				if (abs(fn2(centre, atoms(i))) <= radius .and. &
+					& (atoms(i)%r(3) >= latM(1)*lattice_const-lattice_const*0.5_wp-1E-11_wp .or. &
+					& atoms(i)%r(3) <= lattice_const*0.5_wp+1E-11_wp)) then
+					p = p+1
+					call printRegion(i,p,writeFormat1,writeFormat2)
+				end if
+			end do
+		
+		else if (region == 3) then
+			!! print HOT region
+			write(*,*) "=====Printing hot region along Z axis====="
+			write(*,writeFormat1)'#','id','r(x)', 'r(y)', 'r(z)', 'v(x)', 'v(y)','v(z)','KE(i)', 'KE()', 'TT(i)','Temp()','Distance'
+			do i=1, size(atoms)
+				if (abs(fn2(centre, atoms(i))) <= radius .and. &
+					& (atoms(i)%r(3) >= centre-(lattice_const*0.5_wp+1E-11_wp) .and. &
+					&  atoms(i)%r(3) <= centre+(lattice_const*0.5_wp+1E-11_wp))) then
+					p = p+1
+					call printRegion(i,p,writeFormat1,writeFormat2)
+				end if
+			end do
+		end if
+				
 		call fn1(k)
 		c = c+1	
 	end subroutine mullerplatheReport
+		
+	subroutine printRegion(i,p,writeFormat1,writeFormat2)
+		integer, intent(in)::i,p
+		character(len=100), intent(in):: writeFormat1, writeFormat2
+		real(wp)::centre, radius
+		integer::j
+		radius = lj%cutoff+lj%skin
+		centre = latM(1)*lattice_const*0.5_wp
+		
+		if (mod(p, 30)==0) write(*,writeFormat1)'#', 'id', 'r(x)', 'r(y)', 'r(z)', 'v(x)', 'v(y)', 'v(z)', 'KE(i)', &
+			& 'KE()', 'TT(i)','Temp()', 'Distance'
+		write(stdout, writeFormat2) p, atoms(i)%atom_id, &
+			& [(convert(atoms(i)%r(j),'m','A'),j=1,3)], &
+			& [(convert(atoms(i)%v(j),'m/s', 'A/ps'), j=1,3)], &
+			& convert(KEi(i), 'J', 'eV'), &
+			& convert(KE(), 'J', 'eV'), &
+			& atoms(i)%tt, temperature(), &
+			& convert(abs(fn2(centre, atoms(i))), 'm', 'A')
+	end subroutine printRegion
 
 end program main_prg 

@@ -465,25 +465,41 @@ contains
 	
 	end subroutine sub1
 	
-	subroutine fn1(k)
-		integer, intent(in)::k
-		integer::i,j
+	subroutine fn1(step)
+		integer, intent(in)::step
+		integer::i,j,k
 		real(wp)::hot, cold, centre, radius
 		radius = lj%cutoff+lj%skin
 		centre = latM(1)*lattice_const*0.5_wp
-		
+		j = 0
+		k = 0
 		hot = 0.0
+		cold = 1000.0
 		do i=1, size(atoms)
 			if (abs(fn2(centre, atoms(i))) <= radius .and. &
-				& (atoms(i)%r(3) >= centre-(lattice_const*0.5_wp+1E-11_wp)   .and. &
+				& (atoms(i)%r(3) >= centre-(lattice_const*0.5_wp+1E-11_wp)  .and. &
 				&  atoms(i)%r(3) <= centre+(lattice_const*0.5_wp+1E-11_wp)) .and. &
-				& atoms(i)%tt > hot) then
-				hot = atoms(i)%tt
+				& atoms(i)%tt < cold) then
+				cold = atoms(i)%tt
 				j=i
 			end if
 		end do
-		write(*,*) atoms(j)%atom_id, atoms(j)%tt, hot
+		
+		do i=1,size(atoms)
+			if (abs(fn2(centre, atoms(i))) <= radius .and. &
+				& (atoms(i)%r(3) >= latM(1)*lattice_const-lattice_const*0.5_wp-1E-11_wp .or. &
+				& atoms(i)%r(3) <= lattice_const*0.5_wp+1E-11_wp) .and. &
+				& atoms(i)%tt > hot) then
+				hot = atoms(i)%tt
+				k=i
+			end if
+		end do
 		write(*,*)
+		write(*,'(1X,1A28, /, 1A4, 1I4, 2(/, 1A7, 1F10.6))') 'The coldest of hot atoms is:',  'id:', atoms(j)%atom_id, &
+		& 'KE(i):', convert(KEi(j),'J','eV'), 'TT(i):', atoms(j)%tt
+		write(*,*)
+		write(*,'(1X,1A29, /, 1A4,1I4, 2(/, 1A7, 1F12.6))') 'The hottest of cold atoms is:','id:', atoms(k)%atom_id, &
+		& 'KE(i):', convert(KEi(k),'J','eV'), 'TT(i):', atoms(k)%tt
 	end subroutine fn1
 	
 	pure function fn2(centre, a1) result (o)
