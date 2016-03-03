@@ -20,7 +20,7 @@ module settings_mod
 		real(wp)::skin
 			!! Skin beyond cutoff for neighbor lists
 		real(wp),dimension(:),allocatable::coeffs
-			!! Potential coefficients
+			!! Potential coefficients		
 	end type
 	
 	type::nosehoover_t
@@ -29,6 +29,7 @@ module settings_mod
 		real(wp)::tau = 100.0_wp
 			!! Characteristic time
 	end type
+	
 	
 	!=============!
 	!= Variables =!
@@ -52,7 +53,9 @@ module settings_mod
 	integer::skip_mullerPlathe
 		!! Number of steps between muller-plathe report
 	real(wp)::lattice_const
+		!! Lattice constant [A]
 	integer, dimension(3)::latM
+		!! Lattice multiplier at buildSystem phase
 	
 	real(wp)::T0
 		!! Target temperature [K]
@@ -70,7 +73,7 @@ contains
 		
 		E0 = kB*convert(125.7_wp,'K','K')
 		S0 = convert(3.345_wp,'A','m')
-		lj%cutoff = 2.5_wp*S0
+		lj%cutoff = 2.0_wp*S0
 		lj%skin = 0.5_wp*S0
 		
 		lj%coeffs = [E0,S0]
@@ -81,8 +84,8 @@ contains
 		skip_thermo   = 1
 		skip_dump     = 1
 		skip_neighbor = 20
-		lattice_const = 5.40_wp
-		latM = [5,5,5]
+		lattice_const = convert(5.40_wp, 'A', 'm')
+		latM = [4,4,4]
 		
 		T0 = convert(45.0_wp,'K','K')
 		P0 = convert(1.0_wp,'bar','Pa')

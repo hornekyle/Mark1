@@ -51,6 +51,7 @@ module system_mod
 	type(atom_t),dimension(:),allocatable::atoms
 		!! All atoms in system
 	
+	
 	real(wp)::Teta = 0.0_wp
 		!! Thermostat DOF
 	real(wp)::Pepsilon = 0.0_wp !was used as 0.01
@@ -69,7 +70,6 @@ contains
 
 	subroutine buildSystem(a,N,Ti)
 		implicit none
-		real(wp), dimension(3)::posit, velocity, force
 		real(wp),intent(in)::a
 			!! Lattice constant
 		integer,dimension(3),intent(in)::N
@@ -450,31 +450,49 @@ contains
 		o = (real(size(atoms),wp)*kB*temperature()-virial()/3.0_wp)/product(box)
 	end function pressure
 	
-	subroutine mullerPlathe()
-	!1. make list of atoms in region (z, brute force)
-	!2. measure temperature in region at time
-	!3. swap momentum of atoms
-	integer::i
-	real(wp)::o
-	
-	o = 0.0
-	
-	do i=1, size(atoms)
-		atoms(i)%tt = calculateAtomTemperature(i)
-	end do
-	
-	contains
-	
-		pure function calculateAtomTemperature(i) result(o)
-			integer, intent(in):: i
-			real(wp):: mm, o
-									
+	subroutine sub1()
+		!1. make list of atoms in region (z, brute force)
+		!2. measure temperature in region at time
+		!3. swap momentum of atoms
+		integer::i
+		real(wp)::mm
+			
+		do i=1, size(atoms)
+			!! calculate temperature
 			mm = types(atoms(i)%t)%m*norm2(atoms(i)%v)**2
-			o = mm/(3.0_wp*kB)
-						
-		end function calculateAtomTemperature
+			atoms(i)%tt = mm/(3.0_wp*kB)
+		end do
 	
+	end subroutine sub1
 	
-	end subroutine mullerPlathe
+	subroutine fn1(k)
+		integer, intent(in)::k
+		integer::i,j
+		real(wp)::o, centre, radius
+		radius = lj%cutoff+lj%skin
+		centre = latM(1)*lattice_const/2.0_wp
+		
+		o = 0.0
+		do i=1, size(atoms)
+			if (abs(fn2(centre, atoms(i))) <= radius .and. &
+				& (atoms(i)%r(3)>centre-radius .and. atoms(i)%r(3)<centre+radius) .and. &
+				& atoms(i)%tt > o) then
+				o = atoms(i)%tt
+				j=i
+			end if
+		end do
+		write(*,*) atoms(j)%atom_id, atoms(j)%tt, o
+		write(*,*)
+	end subroutine fn1
+	
+	pure function fn2(centre, a1) result (o)
+		type(atom_t),intent(in)::a1
+		real(wp), intent(in)::centre
+		real(wp):: d1, d2, o
+				
+		d1 = (centre - a1%r(1))**2
+		d2 = (centre - a1%r(2))**2
+		o = sqrt(d1+d2)
+	end function fn2
 
 end module system_mod

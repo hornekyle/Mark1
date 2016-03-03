@@ -34,7 +34,7 @@ contains
 		enableLennardJones = .true.
 		call setThermostat(.false.,T0,10.0_wp*dt)
 		call setBarostat(.false.,P0, 5.0E10_wp*dt)
-		call buildSystem(convert(lattice_const,'A','m'),latM,T0)
+		call buildSystem(lattice_const,latM,T0)
 		
 		call doBox()
 		call writeLammpsData('Ar.data')
@@ -44,7 +44,7 @@ contains
 	subroutine runSim
 		integer::k
 		do k=0,N_steps
-			call mullerPlathe()
+			call sub1()
 			if(mod(k,skip_mullerPlathe)==0) call mullerplatheReport(k)
 			if(mod(k,skip_dump)==0) call writeStepXYZ(iou_xyz)
 			if(mod(k,skip_neighbor)==0) call updateAllNeighbors()
@@ -91,12 +91,12 @@ contains
 		integer::i, j, p
 		integer, save::c=0
 		real(wp),dimension(3)::r
-		real(wp)::d, centre, radius
+		real(wp)::centre, radius
 		character(len=100) writeFormat1, writeFormat2
-		
+						
 		radius = lj%cutoff+lj%skin
-		centre = convert(latM(1)*lattice_const/2.0_wp, 'A', 'm')
-		writeFormat1 = '(1X, 2A5, 2X, 3A6, 3A10, 3A10, 2A10)'
+		centre = latM(1)*lattice_const/2.0_wp
+		writeFormat1 = '(1X, /, 2A5, 2X, 3A6, 3A10, 3A10, 2A10)'
 		writeFormat2 = '(1X, 1I5, 1I5, 2X, 3F6.1, 3F10.4, 3F10.4, 2F10.4)'
 		p = 0
 				
@@ -110,8 +110,10 @@ contains
 		write(*,writeFormat1)'#','id','r(x)', 'r(y)', 'r(z)', 'v(x)', 'v(y)','v(z)','KE(i)', 'KE()', 'TT(i)','Temp()','Distance'
 						
 		do i=1, size(atoms)
-			if (convert(abs(checkRegion(centre, atoms(i))), 'm', 'A') <= convert(radius, 'm', 'A')) then
+			if (abs(fn2(centre, atoms(i))) <= radius .and. (atoms(i)%r(3)>centre-radius .and. atoms(i)%r(3)<centre+radius)) then
 				p = p+1
+				!! add to hot list
+				!! go with cold condition and add to cold list
 				if (mod(p, 30)==0) write(*,writeFormat1)'#', 'id', 'r(x)', 'r(y)', 'r(z)', 'v(x)', 'v(y)', 'v(z)', 'KE(i)', &
 					& 'KE()', 'TT(i)','Temp()', 'Distance'
 				write(stdout, writeFormat2) p, atoms(i)%atom_id, &
@@ -120,21 +122,12 @@ contains
 					& convert(KEi(i), 'J', 'eV'), &
 					& convert(KE(), 'J', 'eV'), &
 					& atoms(i)%tt, temperature(), &
-					& convert(abs(checkRegion(centre, atoms(i))), 'm', 'A')
+					& convert(abs(fn2(centre, atoms(i))), 'm', 'A')
 			end if
 		end do
-		c = c+1
-							
+		write(*,*)
+		call fn1(k)
+		c = c+1	
 	end subroutine mullerplatheReport
-	
-	pure function checkRegion(centre, a1) result (o)
-		type(atom_t),intent(in)::a1
-		real(wp), intent(in)::centre
-		real(wp):: d1, d2, o
-				
-		d1 = (centre - a1%r(1))**2
-		d2 = (centre - a1%r(2))**2
-		o = sqrt(d1+d2)
-	end function checkRegion
 
 end program main_prg 
