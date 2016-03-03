@@ -95,8 +95,8 @@ contains
 		character(len=100) writeFormat1, writeFormat2
 						
 		radius = lj%cutoff+lj%skin
-		centre = latM(1)*lattice_const/2.0_wp
-		writeFormat1 = '(1X, /, 2A5, 2X, 3A6, 3A10, 3A10, 2A10)'
+		centre = latM(1)*lattice_const*0.5_wp
+		writeFormat1 = '(1X, /, 2A5, 2X, 3A6, 3A10, 3A10, 1X, 2A10)'
 		writeFormat2 = '(1X, 1I5, 1I5, 2X, 3F6.1, 3F10.4, 3F10.4, 2F10.4)'
 		p = 0
 				
@@ -110,10 +110,11 @@ contains
 		write(*,writeFormat1)'#','id','r(x)', 'r(y)', 'r(z)', 'v(x)', 'v(y)','v(z)','KE(i)', 'KE()', 'TT(i)','Temp()','Distance'
 						
 		do i=1, size(atoms)
-			if (abs(fn2(centre, atoms(i))) <= radius .and. (atoms(i)%r(3)>centre-radius .and. atoms(i)%r(3)<centre+radius)) then
+			if (abs(fn2(centre, atoms(i))) <= radius .and. &
+				& (atoms(i)%r(3) >= centre-(lattice_const*0.5_wp+1E-11_wp) .and. &
+				&  atoms(i)%r(3) <= centre+(lattice_const*0.5_wp+1E-11_wp))) then
 				p = p+1
-				!! add to hot list
-				!! go with cold condition and add to cold list
+
 				if (mod(p, 30)==0) write(*,writeFormat1)'#', 'id', 'r(x)', 'r(y)', 'r(z)', 'v(x)', 'v(y)', 'v(z)', 'KE(i)', &
 					& 'KE()', 'TT(i)','Temp()', 'Distance'
 				write(stdout, writeFormat2) p, atoms(i)%atom_id, &

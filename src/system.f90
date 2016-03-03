@@ -468,20 +468,21 @@ contains
 	subroutine fn1(k)
 		integer, intent(in)::k
 		integer::i,j
-		real(wp)::o, centre, radius
+		real(wp)::hot, cold, centre, radius
 		radius = lj%cutoff+lj%skin
-		centre = latM(1)*lattice_const/2.0_wp
+		centre = latM(1)*lattice_const*0.5_wp
 		
-		o = 0.0
+		hot = 0.0
 		do i=1, size(atoms)
 			if (abs(fn2(centre, atoms(i))) <= radius .and. &
-				& (atoms(i)%r(3)>centre-radius .and. atoms(i)%r(3)<centre+radius) .and. &
-				& atoms(i)%tt > o) then
-				o = atoms(i)%tt
+				& (atoms(i)%r(3) >= centre-(lattice_const*0.5_wp+1E-11_wp)   .and. &
+				&  atoms(i)%r(3) <= centre+(lattice_const*0.5_wp+1E-11_wp)) .and. &
+				& atoms(i)%tt > hot) then
+				hot = atoms(i)%tt
 				j=i
 			end if
 		end do
-		write(*,*) atoms(j)%atom_id, atoms(j)%tt, o
+		write(*,*) atoms(j)%atom_id, atoms(j)%tt, hot
 		write(*,*)
 	end subroutine fn1
 	
@@ -494,5 +495,7 @@ contains
 		d2 = (centre - a1%r(2))**2
 		o = sqrt(d1+d2)
 	end function fn2
+	
+	
 
 end module system_mod
