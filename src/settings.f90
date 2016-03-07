@@ -50,8 +50,8 @@ module settings_mod
 		!! Number of steps between xyz file dumps
 	integer::skip_neighbor
 		!! Number of steps between neighbor list rebuilds
-	integer::skip_mullerPlathe
-		!! Number of steps between muller-plathe report
+	integer::skip_rnemd
+		!! Number of steps between rnemd report
 	real(wp)::lattice_const
 		!! Lattice constant [A]
 	integer, dimension(3)::latM
@@ -80,12 +80,12 @@ contains
 		
 		!= Simulation =!
 		N_steps       = 0
-		skip_mullerPlathe = 1
+		skip_rnemd = 1
 		skip_thermo   = 1
 		skip_dump     = 1
 		skip_neighbor = 20
 		lattice_const = convert(5.40_wp, 'A', 'm')
-		latM = [4,4,4]
+		latM = [4,4,6]
 		
 		T0 = convert(45.0_wp,'K','K')
 		P0 = convert(1.0_wp,'bar','Pa')

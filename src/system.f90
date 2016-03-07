@@ -39,7 +39,8 @@ module system_mod
 	end type
 	
 	type:: region_t
-		real(wp),dimension(:), allocatable::temp
+		!real(wp),dimension(:), allocatable::temp
+		real(wp),dimension(6)::temp
 			!! Average temperature of a region
 	end type
 	
@@ -58,7 +59,7 @@ module system_mod
 	type(region_t),dimension(:),allocatable::regions
 		!! I should allocate as many "regions" as timesteps.
 		!! Then for each step -k: regions(k)%temp=(10,20,30,40,10)
-		!!	Each value of array is av temp in a region (from bot to top) at k step
+		!! Each value of array is av temp in a region (from bot to top) at k step
 	
 	
 	real(wp)::Teta = 0.0_wp
@@ -97,6 +98,7 @@ contains
 		
 		allocate(types(1))
 		allocate(atoms(size(rcell,2)*product(N)))
+		allocate(regions(N_steps))
 		
 		types%m = convert(39.948_wp,'u','kg')
 		types%atom_name = 'Ar'
@@ -419,7 +421,7 @@ contains
 		real(wp),dimension(3)::r
 		integer::k
 		
-		atoms(i)%neighbors = [integer::] !! WHAT IS THIS
+		atoms(i)%neighbors = [integer::] !! WHAT IS THIS and can we do it with REGIONS?
 		do k=1,size(atoms)
 			if(i==k) cycle
 			r  = deltaR(atoms(i),atoms(k))
@@ -460,10 +462,11 @@ contains
 	end function pressure
 	
 	subroutine sub1()
+		
 		!! Subroutine calculates temperature of every atom
 		integer::i
 		real(wp)::mm
-			
+		
 		do i=1, size(atoms)
 			!! calculate temperature
 			atoms(i)%mm = types(atoms(i)%t)%m*norm2(atoms(i)%v)**2
@@ -475,7 +478,8 @@ contains
 	subroutine fn1(step)
 		integer, intent(in)::step
 		integer::i,j,k
-		real(wp)::hot, cold, centre, radius
+		real(wp)::hot, cold, centre, radius, rstep
+		rstep = lattice_const/2.0_wp
 		radius = lj%cutoff+lj%skin
 		centre = latM(1)*lattice_const*0.5_wp
 		j = 0
@@ -485,9 +489,9 @@ contains
 		do i=1, size(atoms)
 		!! insert calculation of temperature block
 		!!
-			if (abs(fn2(centre, atoms(i))) <= radius .and. &
-				& (atoms(i)%r(3) >= centre-(lattice_const*0.5_wp+1E-11_wp)  .and. &
-				&  atoms(i)%r(3) <= centre+(lattice_const*0.5_wp+1E-11_wp)) .and. &
+			!if (abs(fn2(centre, atoms(i))) <= radius .and. &
+			if	((atoms(i)%r(3) >= centre-(rstep+1E-11_wp) .and. &
+				&  atoms(i)%r(3) < centre+rstep) .and. &
 				& atoms(i)%tt < cold) then
 				cold = atoms(i)%tt
 				j=i
@@ -495,9 +499,9 @@ contains
 		end do
 		
 		do i=1,size(atoms)
-			if (abs(fn2(centre, atoms(i))) <= radius .and. &
-				& (atoms(i)%r(3) >= latM(1)*lattice_const-lattice_const*0.5_wp-1E-11_wp .or. &
-				& atoms(i)%r(3) <= lattice_const*0.5_wp+1E-11_wp) .and. &
+			!if (abs(fn2(centre, atoms(i))) <= radius .and. &
+			if ((atoms(i)%r(3) >= latM(1)*lattice_const-rstep-1E-11_wp .or. &
+				& atoms(i)%r(3) < rstep) .and. &
 				& atoms(i)%tt > hot) then
 				hot = atoms(i)%tt
 				k=i
@@ -522,45 +526,45 @@ contains
 	end function fn2
 	
 	subroutine sub2(k)
-		! rename to rnemd
+		! rename to rnemd?
 		integer, intent(in)::k
 		integer::i
-		
-		allocate(regions(N_steps))
-			
-		!! separately calculate cold region?
-	
+						
 		do i = 1, latM(3)
-			allocate(regions(k)%temp(latM(3)))
 			regions(k)%temp(i) = fn3(i)
 		end do
-
+		write(*,*)
+		write(*,*) 'The average temperatures at different regions are:'
+		do i=1, latM(3)
+			write(*,'(1X,1A8,1I1,1A1,1F9.4)') 'Region #',i,':', regions(k)%temp(i)
+		end do
 	end subroutine sub2
 	
 	function fn3(p) result (o)
 		integer, intent(in):: p
 		real(wp)::o, mm, rstep
 		integer::i,j,k
+		rstep = lattice_const/2.0_wp
 		j = 0
 		k = 0
-		rstep = lattice_const/2.0_wp
+		mm = 0.0
+		o = 0.0
 		
 		do i=1, size(atoms)
 			if (p < latM(3)) then
-				if (atoms(i)%r(3) >= p*lattice_const-rstep .and. atoms(i)%r(3) < p*lattice_const+rstep  ) then
+				if (atoms(i)%r(3) >= p*lattice_const-rstep-1E-11_wp .and. atoms(i)%r(3) < p*lattice_const+rstep  ) then
 					j = j+1
 					mm = mm + types(atoms(i)%t)%m*norm2(atoms(i)%v)**2
-					o = mm/(3.0_wp*kB*j)
 				end if
+				o = mm/(3.0_wp*kB*j)
 			else
-				if (atoms(i)%r(3) >= p*lattice_const-rstep .or. atoms(i)%r(3) < rstep  ) then
+				if (atoms(i)%r(3) >= p*lattice_const-rstep-1E-11_wp .or. atoms(i)%r(3) < rstep  ) then
 					k= k+1
 					mm = mm + types(atoms(i)%t)%m*norm2(atoms(i)%v)**2
-					o = mm/(3.0_wp*kB*k)
 				end if
+				o = mm/(3.0_wp*kB*k)
 			end if
 		end do
-		
 	end function fn3
 
 end module system_mod

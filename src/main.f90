@@ -44,11 +44,17 @@ contains
 	subroutine runSim
 		integer::k
 		do k=0,N_steps
-			call sub1()
-			if(mod(k,skip_mullerPlathe)==0) call mullerplatheReport(k,3)
-				!! 1 - all, 2 - cold region, 3 - hot (mid) region along Z
-			if(mod(k,skip_dump)==0) call writeStepXYZ(iou_xyz)
-			if(mod(k,skip_neighbor)==0) call updateAllNeighbors()
+			call sub1()  !
+				!! calculates temperature of all atoms
+			call mullerplatheReport(k,2) 
+				!! 1 - print all, 2 - print cold, 3 - print hot (mid) region
+			call fn1(k)
+				!! finds and prints the hottest and the coldest atoms in Cold and HOT regions
+			call sub2(k) 
+				!! calculates av temperature for all regions 
+			
+			!if(mod(k,skip_dump)==0) call writeStepXYZ(iou_xyz)
+			!if(mod(k,skip_neighbor)==0) call updateAllNeighbors()
 			!if(mod(k,skip_thermo)==0) call thermoReport(k)
 		
 			call velocityVerlet(dt)
@@ -92,12 +98,13 @@ contains
 		integer::i, j, p
 		integer, save::c=0
 		real(wp),dimension(3)::r
-		real(wp)::centre, radius
+		real(wp)::centre, radius, rstep
 		character(len=100) writeFormat1, writeFormat2
 						
 		radius = lj%cutoff+lj%skin
-		centre = latM(1)*lattice_const*0.5_wp
-		writeFormat1 = '(1X, /, 2A5, 2X, 3A6, 6A10, 1X, 2A10)'
+		centre = latM(3)*lattice_const*0.5_wp
+		rstep = lattice_const/2.0_wp
+		writeFormat1 = '(1X, /, 2A5, 3X, 3A6, 6A10, 1X, 2A10)'
 		writeFormat2 = '(1X, 2I5, 2X, 3F6.1, 8F10.4)'
 		p = 0
 				
@@ -113,10 +120,10 @@ contains
 			write(*,*) "=====Printing whole region along Z axis====="
 			write(*,writeFormat1)'#','id','r(x)', 'r(y)', 'r(z)', 'v(x)', 'v(y)','v(z)','KE(i)', 'KE()', 'TT(i)','Temp()','Distance'
 			do i=1, size(atoms)
-				if (abs(fn2(centre, atoms(i))) <= radius) then
+				!if (abs(fn2(centre, atoms(i))) <= radius) then
 					p = p+1
 				call printRegion(i,p,writeFormat1,writeFormat2)
-				end if
+				!end if
 			end do
 		
 		else if (region == 2) then
@@ -124,9 +131,9 @@ contains
 			write(*,*) "=====Printing cold region along Z axis====="
 			write(*,writeFormat1)'#','id','r(x)', 'r(y)', 'r(z)', 'v(x)', 'v(y)','v(z)','KE(i)', 'KE()', 'TT(i)','Temp()','Distance'
 			do i=1,size(atoms)
-				if (abs(fn2(centre, atoms(i))) <= radius .and. &
-					& (atoms(i)%r(3) >= latM(1)*lattice_const-lattice_const*0.5_wp-1E-11_wp .or. &
-					& atoms(i)%r(3) <= lattice_const*0.5_wp+1E-11_wp)) then
+				!if (abs(fn2(centre, atoms(i))) <= radius .and. &
+				if 	((atoms(i)%r(3) >= latM(3)*lattice_const-rstep-1E-11_wp .or. &
+					& atoms(i)%r(3) < rstep)) then
 					p = p+1
 					call printRegion(i,p,writeFormat1,writeFormat2)
 				end if
@@ -137,16 +144,14 @@ contains
 			write(*,*) "=====Printing hot region along Z axis====="
 			write(*,writeFormat1)'#','id','r(x)', 'r(y)', 'r(z)', 'v(x)', 'v(y)','v(z)','KE(i)', 'KE()', 'TT(i)','Temp()','Distance'
 			do i=1, size(atoms)
-				if (abs(fn2(centre, atoms(i))) <= radius .and. &
-					& (atoms(i)%r(3) >= centre-(lattice_const*0.5_wp+1E-11_wp) .and. &
-					&  atoms(i)%r(3) <= centre+(lattice_const*0.5_wp+1E-11_wp))) then
+				!if (abs(fn2(centre, atoms(i))) <= radius .and. &
+				if	((atoms(i)%r(3) >= centre-(rstep+1E-11_wp) .and. &
+					&  atoms(i)%r(3) < centre+rstep)) then
 					p = p+1
 					call printRegion(i,p,writeFormat1,writeFormat2)
 				end if
 			end do
 		end if
-				
-		call fn1(k)
 		c = c+1	
 	end subroutine mullerplatheReport
 		
