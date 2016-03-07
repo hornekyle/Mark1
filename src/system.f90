@@ -522,34 +522,45 @@ contains
 	end function fn2
 	
 	subroutine sub2(k)
-	! rename to rnemd
+		! rename to rnemd
+		integer, intent(in)::k
+		integer::i
+		
 		allocate(regions(N_steps))
-		rstep = lattice_const/2.0_wp
-		p = 0
+			
 		!! separately calculate cold region?
 	
-		do i = rstep, lattice_const*latM(3)-rstep
+		do i = 1, latM(3)
 			allocate(regions(k)%temp(latM(3)))
-			p=p+1
-			regions(k)%temp(p) = fn2(p)
+			regions(k)%temp(i) = fn3(i)
 		end do
 
 	end subroutine sub2
 	
-	function fn2(p) result (o)
-		real(wp), intent(in):: p
-		real(wp)::o, mm
-		integer::i,j
-		! i - iterator, j - number of atoms in region
-	
+	function fn3(p) result (o)
+		integer, intent(in):: p
+		real(wp)::o, mm, rstep
+		integer::i,j,k
+		j = 0
+		k = 0
+		rstep = lattice_const/2.0_wp
+		
 		do i=1, size(atoms)
-			if (atoms(i)%r(3) >=  .and. atoms(i)%r(3) <  ) then
-				j = j+1
-				mm = mm + types(atoms(i)%t)%m*norm2(atoms(i)%v)**2
-				o = mm/(3.0_wp*kB*j)
+			if (p < latM(3)) then
+				if (atoms(i)%r(3) >= p*lattice_const-rstep .and. atoms(i)%r(3) < p*lattice_const+rstep  ) then
+					j = j+1
+					mm = mm + types(atoms(i)%t)%m*norm2(atoms(i)%v)**2
+					o = mm/(3.0_wp*kB*j)
+				end if
+			else
+				if (atoms(i)%r(3) >= p*lattice_const-rstep .or. atoms(i)%r(3) < rstep  ) then
+					k= k+1
+					mm = mm + types(atoms(i)%t)%m*norm2(atoms(i)%v)**2
+					o = mm/(3.0_wp*kB*k)
+				end if
 			end if
 		end do
 		
-	end function fn2
+	end function fn3
 
 end module system_mod
