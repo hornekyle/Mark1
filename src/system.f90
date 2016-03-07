@@ -39,9 +39,9 @@ module system_mod
 	end type
 	
 	type:: region_t
-		!real(wp),dimension(:), allocatable::temp
+		integer,dimension(:),allocatable::idxs
+		real(wp)::zl,zh
 		real(wp),dimension(6)::temp
-			!! Average temperature of a region
 	end type
 	
 	
@@ -567,4 +567,60 @@ contains
 		end do
 	end function fn3
 
+	function regionList(zl,zh) result(o)
+		real(wp),intent(in)::zl,zh
+		integer,dimension(:),allocatable::o
+		
+		integer::k
+		
+		o = pack( [( k, k=1,size(atoms))] , atoms%r(3)>=zl .and. atoms%r(3)<zh )
+	end function regionList
+	
+	function listTemp(l) result(o)
+		integer,dimension(:),intent(in)::l
+		real(wp)::o
+		
+		integer::k,ai
+		
+		o = 0.0_wp
+		do k=1,size(l)
+			ai = l(k)
+			o = o+0.5_wp*types(atoms(ai)%t)%m*sum(atoms(ai)%v**2)
+		end do
+		
+		o = o/(3.0_wp*kB*real(size(l),wp))
+	end function listTemp
+	
+	function selectHot(l) result(o)
+		integer,dimension(:),intent(in)::l
+		integer::o
+		
+		real(wp),dimension(:),allocatable::T
+		integer::k,ai
+		
+		allocate(T(size(l)))
+		do k=1,size(l)
+			ai = l(k)
+			T(k) = 0.5_wp*types(atoms(ai)%t)%m*sum(atoms(ai)%v**2)/(3.0_wp*kB)
+		end do
+		
+		o = l(maxloc(T,1))
+	end function selectHot
+	
+	function selectCold(l) result(o)
+		integer,dimension(:),intent(in)::l
+		integer::o
+		
+		real(wp),dimension(:),allocatable::T
+		integer::k,ai
+		
+		allocate(T(size(l)))
+		do k=1,size(l)
+			ai = l(k)
+			T(k) = 0.5_wp*types(atoms(ai)%t)%m*sum(atoms(ai)%v**2)/(3.0_wp*kB)
+		end do
+		
+		o = l(minloc(T,1))
+	end function selectCold
+	
 end module system_mod
