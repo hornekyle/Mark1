@@ -38,6 +38,11 @@ module system_mod
 
 	end type
 	
+	type:: region_t
+		real(wp),dimension(:), allocatable::temp
+			!! Average temperature of a region
+	end type
+	
 	
 	!===============!
 	!= Module Data =!
@@ -50,6 +55,10 @@ module system_mod
 		!! Types for all atoms in system
 	type(atom_t),dimension(:),allocatable::atoms
 		!! All atoms in system
+	type(region_t),dimension(:),allocatable::regions
+		!! I should allocate as many "regions" as timesteps.
+		!! Then for each step -k: regions(k)%temp=(10,20,30,40,10)
+		!!	Each value of array is av temp in a region (from bot to top) at k step
 	
 	
 	real(wp)::Teta = 0.0_wp
@@ -410,7 +419,7 @@ contains
 		real(wp),dimension(3)::r
 		integer::k
 		
-		atoms(i)%neighbors = [integer::]
+		atoms(i)%neighbors = [integer::] !! WHAT IS THIS
 		do k=1,size(atoms)
 			if(i==k) cycle
 			r  = deltaR(atoms(i),atoms(k))
@@ -451,16 +460,14 @@ contains
 	end function pressure
 	
 	subroutine sub1()
-		!1. make list of atoms in region (z, brute force)
-		!2. measure temperature in region at time
-		!3. swap momentum of atoms
+		!! Subroutine calculates temperature of every atom
 		integer::i
 		real(wp)::mm
 			
 		do i=1, size(atoms)
 			!! calculate temperature
-			mm = types(atoms(i)%t)%m*norm2(atoms(i)%v)**2
-			atoms(i)%tt = mm/(3.0_wp*kB)
+			atoms(i)%mm = types(atoms(i)%t)%m*norm2(atoms(i)%v)**2
+			atoms(i)%tt = atoms(i)%mm/(3.0_wp*kB)
 		end do
 	
 	end subroutine sub1
@@ -476,6 +483,8 @@ contains
 		hot = 0.0
 		cold = 1000.0
 		do i=1, size(atoms)
+		!! insert calculation of temperature block
+		!!
 			if (abs(fn2(centre, atoms(i))) <= radius .and. &
 				& (atoms(i)%r(3) >= centre-(lattice_const*0.5_wp+1E-11_wp)  .and. &
 				&  atoms(i)%r(3) <= centre+(lattice_const*0.5_wp+1E-11_wp)) .and. &
@@ -512,6 +521,35 @@ contains
 		o = sqrt(d1+d2)
 	end function fn2
 	
+	subroutine sub2(k)
+	! rename to rnemd
+		allocate(regions(N_steps))
+		rstep = lattice_const/2.0_wp
+		p = 0
+		!! separately calculate cold region?
 	
+		do i = rstep, lattice_const*latM(3)-rstep
+			allocate(regions(k)%temp(latM(3)))
+			p=p+1
+			regions(k)%temp(p) = fn2(p)
+		end do
+
+	end subroutine sub2
+	
+	function fn2(p) result (o)
+		real(wp), intent(in):: p
+		real(wp)::o, mm
+		integer::i,j
+		! i - iterator, j - number of atoms in region
+	
+		do i=1, size(atoms)
+			if (atoms(i)%r(3) >=  .and. atoms(i)%r(3) <  ) then
+				j = j+1
+				mm = mm + types(atoms(i)%t)%m*norm2(atoms(i)%v)**2
+				o = mm/(3.0_wp*kB*j)
+			end if
+		end do
+		
+	end function fn2
 
 end module system_mod
