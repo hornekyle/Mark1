@@ -27,8 +27,6 @@ module system_mod
 			!! Atomic force
 		real(wp)::tt
 			!! Atom temperature
-		real(wp)::mm
-			!! Atom momentum
 		integer::atom_id
 			!! Atom id
 		integer::t
@@ -40,8 +38,8 @@ module system_mod
 	
 	type:: region_t
 		integer,dimension(:),allocatable::idxs
+		real(wp),dimension(:),allocatable::temps
 		real(wp)::zl,zh
-		real(wp),dimension(6)::temp
 	end type
 	
 	
@@ -57,9 +55,6 @@ module system_mod
 	type(atom_t),dimension(:),allocatable::atoms
 		!! All atoms in system
 	type(region_t),dimension(:),allocatable::regions
-		!! I should allocate as many "regions" as timesteps.
-		!! Then for each step -k: regions(k)%temp=(10,20,30,40,10)
-		!! Each value of array is av temp in a region (from bot to top) at k step
 	
 	
 	real(wp)::Teta = 0.0_wp
@@ -98,8 +93,12 @@ contains
 		
 		allocate(types(1))
 		allocate(atoms(size(rcell,2)*product(N)))
-		allocate(regions(N_steps))
-		
+
+		allocate(regions(N_steps+1))
+		do i=1, N_steps+1
+			allocate(regions(i)%temps(N_slabs))
+		end do
+	
 		types%m = convert(39.948_wp,'u','kg')
 		types%atom_name = 'Ar'
 		atoms(:)%t = 1
@@ -469,105 +468,15 @@ contains
 		
 		do i=1, size(atoms)
 			!! calculate temperature
-			atoms(i)%mm = types(atoms(i)%t)%m*norm2(atoms(i)%v)**2
-			atoms(i)%tt = atoms(i)%mm/(3.0_wp*kB)
+			mm = types(atoms(i)%t)%m*norm2(atoms(i)%v)**2
+			atoms(i)%tt = mm/(3.0_wp*kB)
 		end do
 	
 	end subroutine sub1
 	
-	subroutine fn1(step)
-		integer, intent(in)::step
-		integer::i,j,k
-		real(wp)::hot, cold, centre, radius, rstep
-		rstep = lattice_const/2.0_wp
-		radius = lj%cutoff+lj%skin
-		centre = latM(1)*lattice_const*0.5_wp
-		j = 0
-		k = 0
-		hot = 0.0
-		cold = 1000.0
-		do i=1, size(atoms)
-		!! insert calculation of temperature block
-		!!
-			!if (abs(fn2(centre, atoms(i))) <= radius .and. &
-			if	((atoms(i)%r(3) >= centre-(rstep+1E-11_wp) .and. &
-				&  atoms(i)%r(3) < centre+rstep) .and. &
-				& atoms(i)%tt < cold) then
-				cold = atoms(i)%tt
-				j=i
-			end if
-		end do
-		
-		do i=1,size(atoms)
-			!if (abs(fn2(centre, atoms(i))) <= radius .and. &
-			if ((atoms(i)%r(3) >= latM(1)*lattice_const-rstep-1E-11_wp .or. &
-				& atoms(i)%r(3) < rstep) .and. &
-				& atoms(i)%tt > hot) then
-				hot = atoms(i)%tt
-				k=i
-			end if
-		end do
-		write(*,*)
-		write(*,'(1X,1A28, /, 1A4, 1I4, 2(/, 1A7, 1F10.6))') 'The coldest of hot atoms is:',  'id:', atoms(j)%atom_id, &
-		& 'KE(i):', convert(KEi(j),'J','eV'), 'TT(i):', atoms(j)%tt
-		write(*,*)
-		write(*,'(1X,1A29, /, 1A4,1I4, 2(/, 1A7, 1F12.6))') 'The hottest of cold atoms is:','id:', atoms(k)%atom_id, &
-		& 'KE(i):', convert(KEi(k),'J','eV'), 'TT(i):', atoms(k)%tt
-	end subroutine fn1
 	
-	pure function fn2(centre, a1) result (o)
-		type(atom_t),intent(in)::a1
-		real(wp), intent(in)::centre
-		real(wp):: d1, d2, o
-				
-		d1 = (centre - a1%r(1))**2
-		d2 = (centre - a1%r(2))**2
-		o = sqrt(d1+d2)
-	end function fn2
-	
-	subroutine sub2(k)
-		! rename to rnemd?
-		integer, intent(in)::k
-		integer::i
-						
-		do i = 1, latM(3)
-			regions(k)%temp(i) = fn3(i)
-		end do
-		write(*,*)
-		write(*,*) 'The average temperatures at different regions are:'
-		do i=1, latM(3)
-			write(*,'(1X,1A8,1I1,1A1,1F9.4)') 'Region #',i,':', regions(k)%temp(i)
-		end do
-	end subroutine sub2
-	
-	function fn3(p) result (o)
-		integer, intent(in):: p
-		real(wp)::o, mm, rstep
-		integer::i,j,k
-		rstep = lattice_const/2.0_wp
-		j = 0
-		k = 0
-		mm = 0.0
-		o = 0.0
-		
-		do i=1, size(atoms)
-			if (p < latM(3)) then
-				if (atoms(i)%r(3) >= p*lattice_const-rstep-1E-11_wp .and. atoms(i)%r(3) < p*lattice_const+rstep  ) then
-					j = j+1
-					mm = mm + types(atoms(i)%t)%m*norm2(atoms(i)%v)**2
-				end if
-				o = mm/(3.0_wp*kB*j)
-			else
-				if (atoms(i)%r(3) >= p*lattice_const-rstep-1E-11_wp .or. atoms(i)%r(3) < rstep  ) then
-					k= k+1
-					mm = mm + types(atoms(i)%t)%m*norm2(atoms(i)%v)**2
-				end if
-				o = mm/(3.0_wp*kB*k)
-			end if
-		end do
-	end function fn3
-
 	function regionList(zl,zh) result(o)
+		!! Stores an array of atoms(i)%atoms_id that belong to a region
 		real(wp),intent(in)::zl,zh
 		integer,dimension(:),allocatable::o
 		
@@ -577,6 +486,7 @@ contains
 	end function regionList
 	
 	function listTemp(l) result(o)
+		!! Calculates the average temperature of atoms in list L
 		integer,dimension(:),intent(in)::l
 		real(wp)::o
 		
@@ -585,13 +495,14 @@ contains
 		o = 0.0_wp
 		do k=1,size(l)
 			ai = l(k)
-			o = o+0.5_wp*types(atoms(ai)%t)%m*sum(atoms(ai)%v**2)
+			o = o + types(atoms(ai)%t)%m*sum(atoms(ai)%v**2)
 		end do
 		
 		o = o/(3.0_wp*kB*real(size(l),wp))
 	end function listTemp
 	
 	function selectHot(l) result(o)
+		!! Finds the hottest atom from the list of L
 		integer,dimension(:),intent(in)::l
 		integer::o
 		
@@ -608,6 +519,7 @@ contains
 	end function selectHot
 	
 	function selectCold(l) result(o)
+		!! Finds the coldest atomf from list L
 		integer,dimension(:),intent(in)::l
 		integer::o
 		

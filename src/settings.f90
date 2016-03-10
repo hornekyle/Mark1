@@ -30,7 +30,6 @@ module settings_mod
 			!! Characteristic time
 	end type
 	
-	
 	!=============!
 	!= Variables =!
 	!=============!
@@ -44,6 +43,8 @@ module settings_mod
 	
 	integer::N_steps
 		!! Number of total simulation steps
+	integer:: N_slabs
+		!! Number of domains perpendicular to z axis
 	integer::skip_thermo
 		!! Number of steps between thermo reports
 	integer::skip_dump
@@ -52,6 +53,7 @@ module settings_mod
 		!! Number of steps between neighbor list rebuilds
 	integer::skip_rnemd
 		!! Number of steps between rnemd report
+		
 	real(wp)::lattice_const
 		!! Lattice constant [A]
 	integer, dimension(3)::latM
@@ -79,13 +81,14 @@ contains
 		lj%coeffs = [E0,S0]
 		
 		!= Simulation =!
-		N_steps       = 0
-		skip_rnemd = 1
+		N_steps       = 2
+		N_slabs       = 10
+		skip_rnemd	  = 1
 		skip_thermo   = 1
 		skip_dump     = 1
 		skip_neighbor = 20
 		lattice_const = convert(5.40_wp, 'A', 'm')
-		latM = [4,4,6]
+		latM = [3,3,5]
 		
 		T0 = convert(45.0_wp,'K','K')
 		P0 = convert(1.0_wp,'bar','Pa')

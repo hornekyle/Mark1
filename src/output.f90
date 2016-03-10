@@ -22,5 +22,6 @@ contains
 				& [(convert(atoms(k)%f(i), 'N', 'eV/A'), i=1,3)]			
 		end do
 	end subroutine writeStepXYZ
+	
 
 end module output_mod

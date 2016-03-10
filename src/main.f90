@@ -2,6 +2,14 @@
 !
 ! http://www.pymolwiki.org/index.php/DrawBoundingBox
 
+
+! write: step temp1 temp2 temp2
+! write: step rx1 ry1 rz1 KE1 rx2 ry2 rz2 KE2
+! call swap atoms(k)
+! call calculate conduction
+! write: step conduction
+
+
 program main_prg
 	use kinds_mod
 	use units_mod
@@ -43,18 +51,24 @@ contains
 		
 	subroutine runSim
 		integer::k
-		do k=0,N_steps
-			call sub1()  !
-				!! calculates temperature of all atoms
-			call mullerplatheReport(k,2) 
-				!! 1 - print all, 2 - print cold, 3 - print hot (mid) region
-			call fn1(k)
-				!! finds and prints the hottest and the coldest atoms in Cold and HOT regions
-			call sub2(k) 
-				!! calculates av temperature for all regions 
+		integer,dimension(:), allocatable::l
+		do k=0, N_steps
 			
-			!if(mod(k,skip_dump)==0) call writeStepXYZ(iou_xyz)
-			!if(mod(k,skip_neighbor)==0) call updateAllNeighbors()
+			call rnemd(k)
+			write(*,*)
+			write(*,'(1X,1F10.7)') regions(k+1)%temps
+			
+			!call sub1()
+			!call mullerplatheReport(k,1) 
+				!! 1 - print all, 2 - print cold, 3 - print hot (mid) region
+
+			!l = regionList(24.0_wp*1E-10_wp,28*1E-10_wp)
+			!write(*,*) listTemp(l)
+			!write(*,*) selectHot(l)
+			!write(*,*) selectCold(l)
+			
+			if(mod(k,skip_dump)==0) call writeStepXYZ(iou_xyz)
+			if(mod(k,skip_neighbor)==0) call updateAllNeighbors()
 			!if(mod(k,skip_thermo)==0) call thermoReport(k)
 		
 			call velocityVerlet(dt)
@@ -102,14 +116,14 @@ contains
 		character(len=100) writeFormat1, writeFormat2
 						
 		radius = lj%cutoff+lj%skin
-		centre = latM(3)*lattice_const*0.5_wp
+		centre = latM(3)*lattice_const/2.0_wp
 		rstep = lattice_const/2.0_wp
-		writeFormat1 = '(1X, /, 2A5, 3X, 3A6, 6A10, 1X, 2A10)'
-		writeFormat2 = '(1X, 2I5, 2X, 3F6.1, 8F10.4)'
+		writeFormat1 = '(1X, /, 2A5, 3X, 3A6, 6A10)'
+		writeFormat2 = '(1X, 2I5, 2X, 3F6.1, 6F10.4)'
 		p = 0
 				
-		write(stdout,'(1X, 1A9, 3F7.2)') "Box size:", [(convert(box(j), 'm', 'A'), j=1,3)]
-		write(stdout,'(1X, 1A12, 1F8.4)') "Cutoff+skin:", convert((lj%cutoff+lj%skin),'m','A')
+		write(stdout,'(1X, 1A9, 3F7.2)') "Box size:", &
+			& [(convert(box(j), 'm', 'A'), j=1,3)]
 		write(stdout,'(1X, 1A16, 1I4)') "Number of atoms:", size(atoms)
 		write(stdout,'(1X, 1A17, /)') "Units used: metal"
 		
@@ -118,22 +132,22 @@ contains
 		if (region == 1) then
 			!! print all
 			write(*,*) "=====Printing whole region along Z axis====="
-			write(*,writeFormat1)'#','id','r(x)', 'r(y)', 'r(z)', 'v(x)', 'v(y)','v(z)','KE(i)', 'KE()', 'TT(i)','Temp()','Distance'
+			write(*,writeFormat1)'#','id','r(x)', 'r(y)', 'r(z)', 'v(x)', & 
+				& 'v(y)','v(z)','KE(i)', 'KE()', 'Temp(i)'
 			do i=1, size(atoms)
-				!if (abs(fn2(centre, atoms(i))) <= radius) then
+				if 	(atoms(i)%r(3) > 24.0*1E-10_wp) then
 					p = p+1
-				call printRegion(i,p,writeFormat1,writeFormat2)
-				!end if
+					call printRegion(i,p,writeFormat1,writeFormat2)
+				end if
 			end do
 		
 		else if (region == 2) then
 			!! print COLD region
 			write(*,*) "=====Printing cold region along Z axis====="
-			write(*,writeFormat1)'#','id','r(x)', 'r(y)', 'r(z)', 'v(x)', 'v(y)','v(z)','KE(i)', 'KE()', 'TT(i)','Temp()','Distance'
+			write(*,writeFormat1)'#','id','r(x)', 'r(y)', 'r(z)', 'v(x)', & 
+				& 'v(y)','v(z)','KE(i)', 'KE()', 'Temp(i)'
 			do i=1,size(atoms)
-				!if (abs(fn2(centre, atoms(i))) <= radius .and. &
-				if 	((atoms(i)%r(3) >= latM(3)*lattice_const-rstep-1E-11_wp .or. &
-					& atoms(i)%r(3) < rstep)) then
+				if 	(atoms(i)%r(3) < lattice_const) then
 					p = p+1
 					call printRegion(i,p,writeFormat1,writeFormat2)
 				end if
@@ -142,11 +156,11 @@ contains
 		else if (region == 3) then
 			!! print HOT region
 			write(*,*) "=====Printing hot region along Z axis====="
-			write(*,writeFormat1)'#','id','r(x)', 'r(y)', 'r(z)', 'v(x)', 'v(y)','v(z)','KE(i)', 'KE()', 'TT(i)','Temp()','Distance'
+			write(*,writeFormat1)'#','id','r(x)', 'r(y)', 'r(z)', 'v(x)', & 
+				& 'v(y)','v(z)','KE(i)', 'KE()', 'Temp(i)'
 			do i=1, size(atoms)
-				!if (abs(fn2(centre, atoms(i))) <= radius .and. &
-				if	((atoms(i)%r(3) >= centre-(rstep+1E-11_wp) .and. &
-					&  atoms(i)%r(3) < centre+rstep)) then
+				if	((atoms(i)%r(3) >= centre-rstep) .and. &
+					& atoms(i)%r(3) < centre+rstep) then
 					p = p+1
 					call printRegion(i,p,writeFormat1,writeFormat2)
 				end if
@@ -161,17 +175,17 @@ contains
 		real(wp)::centre, radius
 		integer::j
 		radius = lj%cutoff+lj%skin
-		centre = latM(1)*lattice_const*0.5_wp
+
 		
-		if (mod(p, 30)==0) write(*,writeFormat1)'#', 'id', 'r(x)', 'r(y)', 'r(z)', 'v(x)', 'v(y)', 'v(z)', 'KE(i)', &
-			& 'KE()', 'TT(i)','Temp()', 'Distance'
+		if (mod(p, 30)==0) write(*,writeFormat1)'#', 'id', 'r(x)', 'r(y)', &
+			& 'r(z)', 'v(x)', 'v(y)', 'v(z)', 'KE(i)', 'KE()', 'Temp(i)'
 		write(stdout, writeFormat2) p, atoms(i)%atom_id, &
 			& [(convert(atoms(i)%r(j),'m','A'),j=1,3)], &
 			& [(convert(atoms(i)%v(j),'m/s', 'A/ps'), j=1,3)], &
 			& convert(KEi(i), 'J', 'eV'), &
 			& convert(KE(), 'J', 'eV'), &
-			& atoms(i)%tt, temperature(), &
-			& convert(abs(fn2(centre, atoms(i))), 'm', 'A')
+			& atoms(i)%tt
+		
 	end subroutine printRegion
 
 end program main_prg 

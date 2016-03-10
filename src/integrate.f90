@@ -12,6 +12,7 @@ module integrate_mod
 	public::velocityVerlet
 	public::leapFrog
 	public::doBox
+	public::rnemd
 	
 contains
 
@@ -132,5 +133,51 @@ contains
 		
 		o = (1.0_wp/barostat%tau**2)*(pressure()/barostat%set-1.0_wp)
 	end function DepsilonDt
+	
+	subroutine rnemd (k)
+		integer, intent(in)::k
+		integer:: i, j
+		integer,dimension(:), allocatable::l
+		real(wp):: abc, t
+		
+		abc = real(latM(3)*lattice_const/N_slabs, wp)
+		
+		!! for each step do 1, size(atoms), write atoms into regions    +
+		!! do 1, size(regions) calculate av. temp                       +
+		!! for region 1 and mid get hot and cold and swap
+		!! run and watch
+		
+		do j=1, N_slabs
+			l = regionList(j*abc - abc, j*abc)
+			if (.not. allocated(regions)) then
+				do i=1, N_steps+1
+					allocate(regions(i)%idxs(size(l)))
+				end do
+			end if
+			regions(k+1)%temps(j) = listTemp(l)
+			write(*,*) 'rank idxs(l)', rank(regions(k+1)%idxs(j))
+			!regions(k+1)%idxs(j) = l
+			
+			!o = pack( [( k, k=1,size(atoms))] , atoms%r(3)>=zl .and. atoms%r(3)<zh )
+			
+			!do k=1,size(l)
+				!ai = l(k)
+				!o = o + types(atoms(ai)%t)%m*sum(atoms(ai)%v**2)
+			!end do
+			
+			
+		end do
+		
+	end subroutine rnemd
+	
+	subroutine swapV(k)
+		integer,  intent(in)::k
+		integer:: i,j, h, c
+		
+		!h = selectHot(
+		
+		!end do
+		
+	end subroutine swapV
 
 end module integrate_mod
