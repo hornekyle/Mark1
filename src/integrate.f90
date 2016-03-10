@@ -155,17 +155,16 @@ contains
 				end do
 			end if
 			regions(k+1)%temps(j) = listTemp(l)
-			write(*,*) 'rank idxs(l)', rank(regions(k+1)%idxs(j))
-			!regions(k+1)%idxs(j) = l
-			
-			!o = pack( [( k, k=1,size(atoms))] , atoms%r(3)>=zl .and. atoms%r(3)<zh )
-			
-			!do k=1,size(l)
-				!ai = l(k)
-				!o = o + types(atoms(ai)%t)%m*sum(atoms(ai)%v**2)
-			!end do
-			
-			
+			regions(k+1)%idxs = l
+			write(*,*)
+			write(*,*) convert(j*abc - abc,'m','A'), convert(j*abc,'m','A')
+			write(*,*)
+			write(*,'(1X,30I4)') l
+			write(*,*)
+			write(*,'(1X, 30I4)') regions(k+1)%idxs
+			write(*,*)
+			write(*,*)
+			write(*,*)
 		end do
 		
 	end subroutine rnemd

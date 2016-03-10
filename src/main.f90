@@ -55,18 +55,14 @@ contains
 		do k=0, N_steps
 			
 			call rnemd(k)
-			write(*,*)
-			write(*,'(1X,1F10.7)') regions(k+1)%temps
-			
-			!call sub1()
-			!call mullerplatheReport(k,1) 
-				!! 1 - print all, 2 - print cold, 3 - print hot (mid) region
-
-			!l = regionList(24.0_wp*1E-10_wp,28*1E-10_wp)
-			!write(*,*) listTemp(l)
-			!write(*,*) selectHot(l)
-			!write(*,*) selectCold(l)
-			
+			!write(*,'(1X, 5I5)') regions(k+1)%idxs
+			!write(*,*)
+			!write(*,'(1X, 3F7.3)') regions(k+1)%temps
+			!write(*,*)
+			!write(*,*)
+			!write(*,*)
+			!write(*,'(1X,1F10.7)') regions(k+1)%idxs
+				
 			if(mod(k,skip_dump)==0) call writeStepXYZ(iou_xyz)
 			if(mod(k,skip_neighbor)==0) call updateAllNeighbors()
 			!if(mod(k,skip_thermo)==0) call thermoReport(k)
