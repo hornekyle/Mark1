@@ -39,6 +39,7 @@ module system_mod
 	type:: region_t
 		integer,dimension(:),allocatable::idxs
 		real(wp),dimension(:),allocatable::temps
+		real(wp),dimension(:,:),allocatable::ttt
 		real(wp)::zl,zh
 	end type
 	
