@@ -55,7 +55,6 @@ contains
 		do k=0, N_steps
 			
 			call rnemd(k)
-			write(*,*) regions(1)%ttt(1,1)
 				
 			if(mod(k,skip_dump)==0) call writeStepXYZ(iou_xyz)
 			if(mod(k,skip_neighbor)==0) call updateAllNeighbors()

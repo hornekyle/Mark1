@@ -37,9 +37,7 @@ module system_mod
 	end type
 	
 	type:: region_t
-		integer,dimension(:),allocatable::idxs
 		real(wp),dimension(:),allocatable::temps
-		real(wp),dimension(:,:),allocatable::ttt
 		real(wp)::zl,zh
 	end type
 	

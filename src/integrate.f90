@@ -136,37 +136,21 @@ contains
 	
 	subroutine rnemd (k)
 		integer, intent(in)::k
-		integer:: i, j, status
+		integer:: i, j
 		integer,dimension(:), allocatable::l
-		real(wp):: abc, t
+		real(wp):: abc
 		
 		abc = real(latM(3)*lattice_const/N_slabs, wp)
-		
-		allocate(regions(10)%ttt(5,5), STAT=status)
-		if (.not. allocated(regions)) then
-			write(*,*) status
-		else
-			write(*,*) 'ok'
-		end if
-		
-		regions(1)%ttt(1,1)= 5
 		
 		!! for each step do 1, size(atoms), write atoms into regions    +
 		!! do 1, size(regions) calculate av. temp                       +
 		!! for region 1 and mid get hot and cold and swap
 		!! run and watch
 		
-!		do j=1, N_slabs
-!			l = regionList(j*abc - abc, j*abc)
-!			if (.not. allocated(regions)) then
-!				do i=1, N_steps+1
-!					allocate(regions(i)%idxs(10, size(l)))
-!				end do
-!			end if
-!			regions(k+1)%idxs(j,:) = l
-!			regions(k+1)%temps(j,:) = listTemp(l)
-
-!		end do
+		do j=1, N_slabs
+			l = regionList(j*abc - abc, j*abc)
+			regions(k+1)%temps(j) = listTemp(l)
+		end do
 		
 	end subroutine rnemd
 	
