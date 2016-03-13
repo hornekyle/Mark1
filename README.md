@@ -21,7 +21,7 @@
     <meta name="viewport" content="width=1020">
     
     
-    <title>Mark1/CMakeLists.txt at master · hornekyle/Mark1</title>
+    <title>Mark1/README.md at master · hornekyle/Mark1</title>
     <link rel="search" type="application/opensearchdescription+xml" href="/opensearch.xml" title="GitHub">
     <link rel="fluid-icon" href="https://github.com/fluidicon.png" title="GitHub">
     <link rel="apple-touch-icon" href="/apple-touch-icon.png">
@@ -41,7 +41,7 @@
       <meta name="browser-stats-url" content="https://api.github.com/_private/browser/stats">
     <meta name="browser-errors-url" content="https://api.github.com/_private/browser/errors">
     <link rel="assets" href="https://assets-cdn.github.com/">
-    <link rel="web-socket" href="wss://live.github.com/_sockets/MTMyNzc4MjQ6NTg1ZmVmNTFiODZkOGY2MzFmZjc5ZDFmM2IwOTdiYmE6YmJkYmIwNzM0NjZiZDMyZGQ2NzU1MTgyNWZjNzdkOTAyZmJkMjA1NmRiYmYxYzY2NTQxZmU5OWY3MWQzYjMzMA==--a70c8af62cbe8e3b371b9827e20964cedcf7dc41">
+    <link rel="web-socket" href="wss://live.github.com/_sockets/MTMyNzc4MjQ6NTg1ZmVmNTFiODZkOGY2MzFmZjc5ZDFmM2IwOTdiYmE6MjIzYTUwMmI2MjI3Y2NmOGNlODE2Mjc1ZjE0NzgwNjljZDFhNjgyZjI1NjE5Y2Q0MjZlNGE3MGIwZTg4OWQ4YQ==--fe2b232fb1efc53b7573329edf66c1aea9f2cbfb">
     <meta name="pjax-timeout" content="1000">
     <link rel="sudo-modal" href="/sessions/sudo_modal">
 
@@ -53,7 +53,7 @@
 <meta name="google-site-verification" content="ZzhVyEFwb7w3e0-uOTltm8Jsck2F5StVihD0exw2fsA">
     <meta name="google-analytics" content="UA-3769691-2">
 
-<meta content="collector.githubapp.com" name="octolytics-host" /><meta content="github" name="octolytics-app-id" /><meta content="44B9CD02:2C14:5085B43:56E5CBB4" name="octolytics-dimension-request_id" /><meta content="13277824" name="octolytics-actor-id" /><meta content="yorzh86" name="octolytics-actor-login" /><meta content="07b8c429375373d14e31a4bcbe8ddc11c3c5593f8bee1c750e064ff6f5f3bdf0" name="octolytics-actor-hash" />
+<meta content="collector.githubapp.com" name="octolytics-host" /><meta content="github" name="octolytics-app-id" /><meta content="44B9CD02:2C14:5084C42:56E5CBAC" name="octolytics-dimension-request_id" /><meta content="13277824" name="octolytics-actor-id" /><meta content="yorzh86" name="octolytics-actor-login" /><meta content="07b8c429375373d14e31a4bcbe8ddc11c3c5593f8bee1c750e064ff6f5f3bdf0" name="octolytics-actor-hash" />
 <meta content="/&lt;user-name&gt;/&lt;repo-name&gt;/blob/show" data-pjax-transient="true" name="analytics-location" />
 
 
@@ -66,7 +66,7 @@
     <meta name="user-login" content="yorzh86">
 
         <meta name="expected-hostname" content="github.com">
-      <meta name="js-proxy-site-detection-payload" content="NDE1YjZmNDcwM2YzZWI2YTc2OTk5Y2YzMDQ0ZDRjZjNkOGUwNTk1ZTk5YmE3M2E3M2U2ZGQ0MjYyYmQyNGE4MXx7InJlbW90ZV9hZGRyZXNzIjoiNjguMTg1LjIwNS4yIiwicmVxdWVzdF9pZCI6IjQ0QjlDRDAyOjJDMTQ6NTA4NUI0Mzo1NkU1Q0JCNCJ9">
+      <meta name="js-proxy-site-detection-payload" content="ZjAwMTZmNTNkNTM5MWRiY2NjMDRhODU1ZWJmN2JhYTFhYzI4YzIyOTUzN2FmMzlkZWE5MjNjZWYyOTNiNDk2OHx7InJlbW90ZV9hZGRyZXNzIjoiNjguMTg1LjIwNS4yIiwicmVxdWVzdF9pZCI6IjQ0QjlDRDAyOjJDMTQ6NTA4NEM0Mjo1NkU1Q0JBQyJ9">
 
       <link rel="mask-icon" href="https://assets-cdn.github.com/pinned-octocat.svg" color="#4078c0">
       <link rel="icon" type="image/x-icon" href="https://assets-cdn.github.com/favicon.ico">
@@ -84,7 +84,7 @@
   <link href="https://github.com/hornekyle/Mark1/commits/master.atom" rel="alternate" title="Recent Commits to Mark1:master" type="application/atom+xml">
 
 
-      <link rel="canonical" href="https://github.com/hornekyle/Mark1/blob/master/CMakeLists.txt" data-pjax-transient>
+      <link rel="canonical" href="https://github.com/hornekyle/Mark1/blob/master/README.md" data-pjax-transient>
   </head>
 
 
@@ -222,7 +222,7 @@
             Settings
           </a>
 
-          <!-- </textarea> --><!-- '"` --><form accept-charset="UTF-8" action="/logout" class="logout-form" data-form-nonce="3ee4e2816c2bc01029e833c562bda064e16a41d8" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /><input name="authenticity_token" type="hidden" value="495QhpKwzzZHKGH37P5XYQBBLJfzfYedmeHeEJJZzVdfj11+YQl6ZZQrJrhZy4cBlaxcvAC0ZfnUQOGjg3fHzA==" /></div>
+          <!-- </textarea> --><!-- '"` --><form accept-charset="UTF-8" action="/logout" class="logout-form" data-form-nonce="3ee4e2816c2bc01029e833c562bda064e16a41d8" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /><input name="authenticity_token" type="hidden" value="xySU9+Dfxb25KvER+XKYKvNpmrCWLEOw6gfuvNESyUwGGr/m7yYtEoqAqnb7PdHz2Qg40/YAIun447MAOubmOw==" /></div>
             <button class="dropdown-item dropdown-signout" data-ga-click="Header, sign out, icon:logout">
               Sign out
             </button>
@@ -260,7 +260,7 @@
 <ul class="pagehead-actions">
 
   <li>
-        <!-- </textarea> --><!-- '"` --><form accept-charset="UTF-8" action="/notifications/subscribe" class="js-social-container" data-autosubmit="true" data-form-nonce="3ee4e2816c2bc01029e833c562bda064e16a41d8" data-remote="true" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /><input name="authenticity_token" type="hidden" value="8mQ6EcuNUNncdWQdiUJQuykiAPbfs+nIGobitG+nmajrB1ehRGhrCnurwS2XZC4zpkBvpIkw/u3eiU5J3/5I6g==" /></div>      <input id="repository_id" name="repository_id" type="hidden" value="32095192" />
+        <!-- </textarea> --><!-- '"` --><form accept-charset="UTF-8" action="/notifications/subscribe" class="js-social-container" data-autosubmit="true" data-form-nonce="3ee4e2816c2bc01029e833c562bda064e16a41d8" data-remote="true" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /><input name="authenticity_token" type="hidden" value="MMjEmJd245HGeIn3a52oQaO4s9aiF8NdVuC18sIlF5fuJiHSL2kgHyu+TvJWBmI7XUR5E012tw2o5qZlBuc0vA==" /></div>      <input id="repository_id" name="repository_id" type="hidden" value="32095192" />
 
         <div class="select-menu js-menu-container js-select-menu">
           <a href="/hornekyle/Mark1/subscription"
@@ -335,7 +335,7 @@
     
   <div class="js-toggler-container js-social-container starring-container ">
 
-    <!-- </textarea> --><!-- '"` --><form accept-charset="UTF-8" action="/hornekyle/Mark1/unstar" class="js-toggler-form starred" data-form-nonce="3ee4e2816c2bc01029e833c562bda064e16a41d8" data-remote="true" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /><input name="authenticity_token" type="hidden" value="UlOf5nRn1e4Y4HtaKHwPsjSTYmJmpigVQVqe9klUxUONSgyYwAbfh3PNyew9Jj2+/VRHSPvXTh5TDswvWTV9Ag==" /></div>
+    <!-- </textarea> --><!-- '"` --><form accept-charset="UTF-8" action="/hornekyle/Mark1/unstar" class="js-toggler-form starred" data-form-nonce="3ee4e2816c2bc01029e833c562bda064e16a41d8" data-remote="true" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /><input name="authenticity_token" type="hidden" value="+tXiRL6vIQSHjvbNrewMBkD3ZzLcRca8IyLf79gdBq9fiu8OTOweeOJEO3Z50+FOY+D1DpUNhct9xrAqXYhgZw==" /></div>
       <button
         class="btn btn-sm btn-with-count js-toggler-target"
         aria-label="Unstar this repository" title="Unstar hornekyle/Mark1"
@@ -347,7 +347,7 @@
           0
         </a>
 </form>
-    <!-- </textarea> --><!-- '"` --><form accept-charset="UTF-8" action="/hornekyle/Mark1/star" class="js-toggler-form unstarred" data-form-nonce="3ee4e2816c2bc01029e833c562bda064e16a41d8" data-remote="true" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /><input name="authenticity_token" type="hidden" value="dckuqx2V7mPtvxdHQdbr23D7bxxhmPqjv+MWlu0zi1701L8izFHvEN6ztGVrwwSodZEiy3JU1+/2OfS1fPMNrw==" /></div>
+    <!-- </textarea> --><!-- '"` --><form accept-charset="UTF-8" action="/hornekyle/Mark1/star" class="js-toggler-form unstarred" data-form-nonce="3ee4e2816c2bc01029e833c562bda064e16a41d8" data-remote="true" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /><input name="authenticity_token" type="hidden" value="zb0a9ovDTROV087lFFXCzQsBhYJMDfwZ2sInZLuP50EjMR1TnfODBpHXs0MdLpAfc79PTjKAkhFxSy2xzAkvXg==" /></div>
       <button
         class="btn btn-sm btn-with-count js-toggler-target"
         aria-label="Star this repository" title="Star hornekyle/Mark1"
@@ -363,7 +363,7 @@
   </li>
 
   <li>
-          <!-- </textarea> --><!-- '"` --><form accept-charset="UTF-8" action="/hornekyle/Mark1/fork" class="btn-with-count" data-form-nonce="3ee4e2816c2bc01029e833c562bda064e16a41d8" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /><input name="authenticity_token" type="hidden" value="IR+x21GZnkcUt6j240wdT9RULYs3EawfxTxsrPFW89Wmeg+O1/NhqN7YaHN9jjjfUr8SUiq6lT22zI8I3sW3uQ==" /></div>
+          <!-- </textarea> --><!-- '"` --><form accept-charset="UTF-8" action="/hornekyle/Mark1/fork" class="btn-with-count" data-form-nonce="3ee4e2816c2bc01029e833c562bda064e16a41d8" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /><input name="authenticity_token" type="hidden" value="bJKsiQx1ol3E8rSroWHoDSF6gQx1C4GEzswo2wNiviLayJUpqEWNT+MHIvaeoPe4ZMDv1FZM5XcwJyeuCbgB8A==" /></div>
             <button
                 type="submit"
                 class="btn btn-sm btn-with-count"
@@ -447,9 +447,9 @@
 
     
 
-<a href="/hornekyle/Mark1/blob/37f1510fa29ccbb27400b17b6e0b8310c08a3586/CMakeLists.txt" class="hidden js-permalink-shortcut" data-hotkey="y">Permalink</a>
+<a href="/hornekyle/Mark1/blob/37f1510fa29ccbb27400b17b6e0b8310c08a3586/README.md" class="hidden js-permalink-shortcut" data-hotkey="y">Permalink</a>
 
-<!-- blob contrib key: blob_contributors:v21:ba223ec6ae3905623a8a6f5a0924692f -->
+<!-- blob contrib key: blob_contributors:v21:4727602e606237952647ffc4cf511517 -->
 
 <div class="file-navigation js-zeroclipboard-container">
   
@@ -491,7 +491,7 @@
 
 
             <a class="select-menu-item js-navigation-item js-navigation-open "
-               href="/hornekyle/Mark1/blob/conduction_calculation/CMakeLists.txt"
+               href="/hornekyle/Mark1/blob/conduction_calculation/README.md"
                data-name="conduction_calculation"
                data-skip-pjax="true"
                rel="nofollow">
@@ -501,7 +501,7 @@
               </span>
             </a>
             <a class="select-menu-item js-navigation-item js-navigation-open selected"
-               href="/hornekyle/Mark1/blob/master/CMakeLists.txt"
+               href="/hornekyle/Mark1/blob/master/README.md"
                data-name="master"
                data-skip-pjax="true"
                rel="nofollow">
@@ -511,7 +511,7 @@
               </span>
             </a>
             <a class="select-menu-item js-navigation-item js-navigation-open "
-               href="/hornekyle/Mark1/blob/simple_system/CMakeLists.txt"
+               href="/hornekyle/Mark1/blob/simple_system/README.md"
                data-name="simple_system"
                data-skip-pjax="true"
                rel="nofollow">
@@ -521,7 +521,7 @@
               </span>
             </a>
             <a class="select-menu-item js-navigation-item js-navigation-open "
-               href="/hornekyle/Mark1/blob/working/CMakeLists.txt"
+               href="/hornekyle/Mark1/blob/working/README.md"
                data-name="working"
                data-skip-pjax="true"
                rel="nofollow">
@@ -532,7 +532,7 @@
             </a>
         </div>
 
-          <!-- </textarea> --><!-- '"` --><form accept-charset="UTF-8" action="/hornekyle/Mark1/branches" class="js-create-branch select-menu-item select-menu-new-item-form js-navigation-item js-new-item-form" data-form-nonce="3ee4e2816c2bc01029e833c562bda064e16a41d8" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /><input name="authenticity_token" type="hidden" value="1yCdMxQYeEwokh0IfzzoStlrzZbBIojsSEUj7g6W0udbLYmd9krAjEDV3t50STqDN3QnZzyoCrzty2QHIepSoA==" /></div>
+          <!-- </textarea> --><!-- '"` --><form accept-charset="UTF-8" action="/hornekyle/Mark1/branches" class="js-create-branch select-menu-item select-menu-new-item-form js-navigation-item js-new-item-form" data-form-nonce="3ee4e2816c2bc01029e833c562bda064e16a41d8" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /><input name="authenticity_token" type="hidden" value="EMBChxjMvX64Ccw6cNYbM/WBJXaFNfrKnArYJDRUNG4OFMQhAlc2iV9QCmEGv4Q2E6M2U4FVFRRlocQJP+DwbA==" /></div>
           <svg aria-hidden="true" class="octicon octicon-git-branch select-menu-item-icon" height="16" role="img" version="1.1" viewBox="0 0 10 16" width="10"><path d="M10 5c0-1.11-0.89-2-2-2s-2 0.89-2 2c0 0.73 0.41 1.38 1 1.72v0.3c-0.02 0.52-0.23 0.98-0.63 1.38s-0.86 0.61-1.38 0.63c-0.83 0.02-1.48 0.16-2 0.45V4.72c0.59-0.34 1-0.98 1-1.72 0-1.11-0.89-2-2-2S0 1.89 0 3c0 0.73 0.41 1.38 1 1.72v6.56C0.41 11.63 0 12.27 0 13c0 1.11 0.89 2 2 2s2-0.89 2-2c0-0.53-0.2-1-0.53-1.36 0.09-0.06 0.48-0.41 0.59-0.47 0.25-0.11 0.56-0.17 0.94-0.17 1.05-0.05 1.95-0.45 2.75-1.25s1.2-1.98 1.25-3.02h-0.02c0.61-0.36 1.02-1 1.02-1.73zM2 1.8c0.66 0 1.2 0.55 1.2 1.2s-0.55 1.2-1.2 1.2-1.2-0.55-1.2-1.2 0.55-1.2 1.2-1.2z m0 12.41c-0.66 0-1.2-0.55-1.2-1.2s0.55-1.2 1.2-1.2 1.2 0.55 1.2 1.2-0.55 1.2-1.2 1.2z m6-8c-0.66 0-1.2-0.55-1.2-1.2s0.55-1.2 1.2-1.2 1.2 0.55 1.2 1.2-0.55 1.2-1.2 1.2z"></path></svg>
             <div class="select-menu-item-text">
               <span class="select-menu-item-heading">Create branch: <span class="js-new-item-name"></span></span>
@@ -540,7 +540,7 @@
             </div>
             <input type="hidden" name="name" id="name" class="js-new-item-value">
             <input type="hidden" name="branch" id="branch" value="master">
-            <input type="hidden" name="path" id="path" value="CMakeLists.txt">
+            <input type="hidden" name="path" id="path" value="README.md">
 </form>
       </div>
 
@@ -567,11 +567,11 @@
     <button aria-label="Copy file path to clipboard" class="js-zeroclipboard btn btn-sm zeroclipboard-button tooltipped tooltipped-s" data-copied-hint="Copied!" type="button">Copy path</button>
   </div>
   <div class="breadcrumb js-zeroclipboard-target">
-    <span class="repo-root js-repo-root"><span class="js-path-segment"><a href="/hornekyle/Mark1"><span>Mark1</span></a></span></span><span class="separator">/</span><strong class="final-path">CMakeLists.txt</strong>
+    <span class="repo-root js-repo-root"><span class="js-path-segment"><a href="/hornekyle/Mark1"><span>Mark1</span></a></span></span><span class="separator">/</span><strong class="final-path">README.md</strong>
   </div>
 </div>
 
-<include-fragment class="commit-tease" src="/hornekyle/Mark1/contributors/master/CMakeLists.txt">
+<include-fragment class="commit-tease" src="/hornekyle/Mark1/contributors/master/README.md">
   <div>
     Fetching contributors&hellip;
   </div>
@@ -586,24 +586,24 @@
   <div class="file-actions">
 
     <div class="btn-group">
-      <a href="/hornekyle/Mark1/raw/master/CMakeLists.txt" class="btn btn-sm " id="raw-url">Raw</a>
-        <a href="/hornekyle/Mark1/blame/master/CMakeLists.txt" class="btn btn-sm js-update-url-with-hash">Blame</a>
-      <a href="/hornekyle/Mark1/commits/master/CMakeLists.txt" class="btn btn-sm " rel="nofollow">History</a>
+      <a href="/hornekyle/Mark1/raw/master/README.md" class="btn btn-sm " id="raw-url">Raw</a>
+        <a href="/hornekyle/Mark1/blame/master/README.md" class="btn btn-sm js-update-url-with-hash">Blame</a>
+      <a href="/hornekyle/Mark1/commits/master/README.md" class="btn btn-sm " rel="nofollow">History</a>
     </div>
 
         <a class="btn-octicon tooltipped tooltipped-nw"
-           href="github-windows://openRepo/https://github.com/hornekyle/Mark1?branch=master&amp;filepath=CMakeLists.txt"
+           href="github-windows://openRepo/https://github.com/hornekyle/Mark1?branch=master&amp;filepath=README.md"
            aria-label="Open this file in GitHub Desktop"
            data-ga-click="Repository, open with desktop, type:windows">
             <svg aria-hidden="true" class="octicon octicon-device-desktop" height="16" role="img" version="1.1" viewBox="0 0 16 16" width="16"><path d="M15 2H1c-0.55 0-1 0.45-1 1v9c0 0.55 0.45 1 1 1h5.34c-0.25 0.61-0.86 1.39-2.34 2h8c-1.48-0.61-2.09-1.39-2.34-2h5.34c0.55 0 1-0.45 1-1V3c0-0.55-0.45-1-1-1z m0 9H1V3h14v8z"></path></svg>
         </a>
 
-        <!-- </textarea> --><!-- '"` --><form accept-charset="UTF-8" action="/hornekyle/Mark1/edit/master/CMakeLists.txt" class="inline-form js-update-url-with-hash" data-form-nonce="3ee4e2816c2bc01029e833c562bda064e16a41d8" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /><input name="authenticity_token" type="hidden" value="C8R0c0eXl2y80h34ohk6W3ZimlEN9R9UAp23spuE9haZnFiQC+ctXfPp0B5HR+aQPCMQGl8ldoDJNuti59dhQA==" /></div>
+        <!-- </textarea> --><!-- '"` --><form accept-charset="UTF-8" action="/hornekyle/Mark1/edit/master/README.md" class="inline-form js-update-url-with-hash" data-form-nonce="3ee4e2816c2bc01029e833c562bda064e16a41d8" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /><input name="authenticity_token" type="hidden" value="rdbWhAJx3NW8BQST3R8uMrZxhlUyzA64AIXwcxGPdeGtkndjEmyL+UJkccLkZJnMzRSIvVSMETX11baR4C3zPw==" /></div>
           <button class="btn-octicon tooltipped tooltipped-nw" type="submit"
             aria-label="Edit this file" data-hotkey="e" data-disable-with>
             <svg aria-hidden="true" class="octicon octicon-pencil" height="16" role="img" version="1.1" viewBox="0 0 14 16" width="14"><path d="M0 12v3h3l8-8-3-3L0 12z m3 2H1V12h1v1h1v1z m10.3-9.3l-1.3 1.3-3-3 1.3-1.3c0.39-0.39 1.02-0.39 1.41 0l1.59 1.59c0.39 0.39 0.39 1.02 0 1.41z"></path></svg>
           </button>
-</form>        <!-- </textarea> --><!-- '"` --><form accept-charset="UTF-8" action="/hornekyle/Mark1/delete/master/CMakeLists.txt" class="inline-form" data-form-nonce="3ee4e2816c2bc01029e833c562bda064e16a41d8" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /><input name="authenticity_token" type="hidden" value="5mUFUGSQrNuYIqNmqwL+Md5JK4o1s9eTDht+evb4PybADdQ1PzL12oXgAhIkIisKWNubL7sLiR2FwbvwswQ9Iw==" /></div>
+</form>        <!-- </textarea> --><!-- '"` --><form accept-charset="UTF-8" action="/hornekyle/Mark1/delete/master/README.md" class="inline-form" data-form-nonce="3ee4e2816c2bc01029e833c562bda064e16a41d8" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /><input name="authenticity_token" type="hidden" value="PzLCyzjioMUKoLHJkN7WEL6c4vbQLjCqRPM21Hh3PhwSE37rpMfwbX69joBc8Owg0OfWbM/nY3040+9WnDt1+Q==" /></div>
           <button class="btn-octicon btn-octicon-danger tooltipped tooltipped-nw" type="submit"
             aria-label="Delete this file" data-disable-with>
             <svg aria-hidden="true" class="octicon octicon-trashcan" height="16" role="img" version="1.1" viewBox="0 0 12 16" width="12"><path d="M10 2H8c0-0.55-0.45-1-1-1H4c-0.55 0-1 0.45-1 1H1c-0.55 0-1 0.45-1 1v1c0 0.55 0.45 1 1 1v9c0 0.55 0.45 1 1 1h7c0.55 0 1-0.45 1-1V5c0.55 0 1-0.45 1-1v-1c0-0.55-0.45-1-1-1z m-1 12H2V5h1v8h1V5h1v8h1V5h1v8h1V5h1v9z m1-10H1v-1h9v1z"></path></svg>
@@ -611,192 +611,89 @@
 </form>  </div>
 
   <div class="file-info">
-      43 lines (36 sloc)
+      30 lines (24 sloc)
       <span class="file-info-divider"></span>
-    1.51 KB
+    1.41 KB
   </div>
 </div>
 
   
+  <div id="readme" class="readme blob instapaper_body">
+    <article class="markdown-body entry-content" itemprop="text"><h1><a id="user-content-mark1" class="anchor" href="#mark1" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" role="img" version="1.1" viewBox="0 0 16 16" width="16"><path d="M4 9h1v1h-1c-1.5 0-3-1.69-3-3.5s1.55-3.5 3-3.5h4c1.45 0 3 1.69 3 3.5 0 1.41-0.91 2.72-2 3.25v-1.16c0.58-0.45 1-1.27 1-2.09 0-1.28-1.02-2.5-2-2.5H4c-0.98 0-2 1.22-2 2.5s1 2.5 2 2.5z m9-3h-1v1h1c1 0 2 1.22 2 2.5s-1.02 2.5-2 2.5H9c-0.98 0-2-1.22-2-2.5 0-0.83 0.42-1.64 1-2.09v-1.16c-1.09 0.53-2 1.84-2 3.25 0 1.81 1.55 3.5 3 3.5h4c1.45 0 3-1.69 3-3.5s-1.5-3.5-3-3.5z"></path></svg></a>Mark1</h1>
 
-  <div itemprop="text" class="blob-wrapper data type-cmake">
-      <table class="highlight tab-size js-file-line-container" data-tab-size="8">
-      <tr>
-        <td id="L1" class="blob-num js-line-number" data-line-number="1"></td>
-        <td id="LC1" class="blob-code blob-code-inner js-file-line"><span class="pl-c1">cmake_minimum_required</span>(<span class="pl-k">VERSION</span> 2.6)</td>
-      </tr>
-      <tr>
-        <td id="L2" class="blob-num js-line-number" data-line-number="2"></td>
-        <td id="LC2" class="blob-code blob-code-inner js-file-line"><span class="pl-c1">enable_language</span>(Fortran)</td>
-      </tr>
-      <tr>
-        <td id="L3" class="blob-num js-line-number" data-line-number="3"></td>
-        <td id="LC3" class="blob-code blob-code-inner js-file-line"><span class="pl-c1">project</span>(<span class="pl-s">&quot;Mark1&quot;</span>)</td>
-      </tr>
-      <tr>
-        <td id="L4" class="blob-num js-line-number" data-line-number="4"></td>
-        <td id="LC4" class="blob-code blob-code-inner js-file-line">
-</td>
-      </tr>
-      <tr>
-        <td id="L5" class="blob-num js-line-number" data-line-number="5"></td>
-        <td id="LC5" class="blob-code blob-code-inner js-file-line"><span class="pl-c1">set</span>(source</td>
-      </tr>
-      <tr>
-        <td id="L6" class="blob-num js-line-number" data-line-number="6"></td>
-        <td id="LC6" class="blob-code blob-code-inner js-file-line">	<span class="pl-s">&quot;src/integrate.f90&quot;</span></td>
-      </tr>
-      <tr>
-        <td id="L7" class="blob-num js-line-number" data-line-number="7"></td>
-        <td id="LC7" class="blob-code blob-code-inner js-file-line">	<span class="pl-s">&quot;src/kinds.f90&quot;</span></td>
-      </tr>
-      <tr>
-        <td id="L8" class="blob-num js-line-number" data-line-number="8"></td>
-        <td id="LC8" class="blob-code blob-code-inner js-file-line">	<span class="pl-s">&quot;src/main.f90&quot;</span></td>
-      </tr>
-      <tr>
-        <td id="L9" class="blob-num js-line-number" data-line-number="9"></td>
-        <td id="LC9" class="blob-code blob-code-inner js-file-line">	<span class="pl-s">&quot;src/output.f90&quot;</span></td>
-      </tr>
-      <tr>
-        <td id="L10" class="blob-num js-line-number" data-line-number="10"></td>
-        <td id="LC10" class="blob-code blob-code-inner js-file-line">	<span class="pl-s">&quot;src/plplotlib.f90&quot;</span></td>
-      </tr>
-      <tr>
-        <td id="L11" class="blob-num js-line-number" data-line-number="11"></td>
-        <td id="LC11" class="blob-code blob-code-inner js-file-line">	<span class="pl-s">&quot;src/settings.f90&quot;</span></td>
-      </tr>
-      <tr>
-        <td id="L12" class="blob-num js-line-number" data-line-number="12"></td>
-        <td id="LC12" class="blob-code blob-code-inner js-file-line">	<span class="pl-s">&quot;src/system.f90&quot;</span></td>
-      </tr>
-      <tr>
-        <td id="L13" class="blob-num js-line-number" data-line-number="13"></td>
-        <td id="LC13" class="blob-code blob-code-inner js-file-line">	<span class="pl-s">&quot;src/units.f90&quot;</span></td>
-      </tr>
-      <tr>
-        <td id="L14" class="blob-num js-line-number" data-line-number="14"></td>
-        <td id="LC14" class="blob-code blob-code-inner js-file-line">	<span class="pl-s">&quot;src/utilities.f90&quot;</span></td>
-      </tr>
-      <tr>
-        <td id="L15" class="blob-num js-line-number" data-line-number="15"></td>
-        <td id="LC15" class="blob-code blob-code-inner js-file-line">	)</td>
-      </tr>
-      <tr>
-        <td id="L16" class="blob-num js-line-number" data-line-number="16"></td>
-        <td id="LC16" class="blob-code blob-code-inner js-file-line">
-</td>
-      </tr>
-      <tr>
-        <td id="L17" class="blob-num js-line-number" data-line-number="17"></td>
-        <td id="LC17" class="blob-code blob-code-inner js-file-line"><span class="pl-c1">set</span>(CMAKE_Fortran_FLAGS <span class="pl-s">&quot;&quot;</span>)</td>
-      </tr>
-      <tr>
-        <td id="L18" class="blob-num js-line-number" data-line-number="18"></td>
-        <td id="LC18" class="blob-code blob-code-inner js-file-line"><span class="pl-c1">set</span>(CMAKE_Fortran_FLAGS_DEBUG <span class="pl-s">&quot;-g -Wall -Wtabs -fcheck=all -ffpe-trap=invalid,zero,overflow -fbacktrace -finit-real=snan&quot;</span>)</td>
-      </tr>
-      <tr>
-        <td id="L19" class="blob-num js-line-number" data-line-number="19"></td>
-        <td id="LC19" class="blob-code blob-code-inner js-file-line"><span class="pl-c1">set</span>(CMAKE_Fortran_FLAGS_RELEASE <span class="pl-s">&quot;-O3 -mtune=native -march=native&quot;</span>)</td>
-      </tr>
-      <tr>
-        <td id="L20" class="blob-num js-line-number" data-line-number="20"></td>
-        <td id="LC20" class="blob-code blob-code-inner js-file-line">
-</td>
-      </tr>
-      <tr>
-        <td id="L21" class="blob-num js-line-number" data-line-number="21"></td>
-        <td id="LC21" class="blob-code blob-code-inner js-file-line"><span class="pl-c1">include</span>(FindPkgConfig)</td>
-      </tr>
-      <tr>
-        <td id="L22" class="blob-num js-line-number" data-line-number="22"></td>
-        <td id="LC22" class="blob-code blob-code-inner js-file-line">pkg_search_module(PLPLOT <span class="pl-k">REQUIRED</span> plplot-f95 plplotd-f95)</td>
-      </tr>
-      <tr>
-        <td id="L23" class="blob-num js-line-number" data-line-number="23"></td>
-        <td id="LC23" class="blob-code blob-code-inner js-file-line"><span class="pl-c1">include_directories</span>(<span class="pl-smi">${PLPLOT_INCLUDE_DIRS}</span>)</td>
-      </tr>
-      <tr>
-        <td id="L24" class="blob-num js-line-number" data-line-number="24"></td>
-        <td id="LC24" class="blob-code blob-code-inner js-file-line"><span class="pl-c1">link_directories</span>(<span class="pl-smi">${PLPLOT_LIBRARY_DIRS}</span>)</td>
-      </tr>
-      <tr>
-        <td id="L25" class="blob-num js-line-number" data-line-number="25"></td>
-        <td id="LC25" class="blob-code blob-code-inner js-file-line">
-</td>
-      </tr>
-      <tr>
-        <td id="L26" class="blob-num js-line-number" data-line-number="26"></td>
-        <td id="LC26" class="blob-code blob-code-inner js-file-line"><span class="pl-c1">add_custom_target</span>(symlink</td>
-      </tr>
-      <tr>
-        <td id="L27" class="blob-num js-line-number" data-line-number="27"></td>
-        <td id="LC27" class="blob-code blob-code-inner js-file-line">	<span class="pl-k">COMMAND</span> <span class="pl-smi">${CMAKE_COMMAND}</span> -E create_symlink <span class="pl-s">&quot;<span class="pl-smi">${CMAKE_SOURCE_DIR}</span>/scripts&quot;</span> <span class="pl-s">&quot;<span class="pl-smi">${CMAKE_BINARY_DIR}</span>/scripts&quot;</span></td>
-      </tr>
-      <tr>
-        <td id="L28" class="blob-num js-line-number" data-line-number="28"></td>
-        <td id="LC28" class="blob-code blob-code-inner js-file-line">	<span class="pl-k">COMMAND</span> <span class="pl-smi">${CMAKE_COMMAND}</span> -E create_symlink <span class="pl-s">&quot;<span class="pl-smi">${CMAKE_SOURCE_DIR}</span>/lammps&quot;</span> <span class="pl-s">&quot;<span class="pl-smi">${CMAKE_BINARY_DIR}</span>/lammps&quot;</span></td>
-      </tr>
-      <tr>
-        <td id="L29" class="blob-num js-line-number" data-line-number="29"></td>
-        <td id="LC29" class="blob-code blob-code-inner js-file-line">	<span class="pl-k">WORKING_DIRECTORY</span> <span class="pl-s">&quot;<span class="pl-smi">${CMAKE_BINARY_DIR}</span>&quot;</span>)</td>
-      </tr>
-      <tr>
-        <td id="L30" class="blob-num js-line-number" data-line-number="30"></td>
-        <td id="LC30" class="blob-code blob-code-inner js-file-line">
-</td>
-      </tr>
-      <tr>
-        <td id="L31" class="blob-num js-line-number" data-line-number="31"></td>
-        <td id="LC31" class="blob-code blob-code-inner js-file-line"><span class="pl-c1">add_executable</span>(main <span class="pl-smi">${source}</span>)</td>
-      </tr>
-      <tr>
-        <td id="L32" class="blob-num js-line-number" data-line-number="32"></td>
-        <td id="LC32" class="blob-code blob-code-inner js-file-line"><span class="pl-c1">target_link_libraries</span>(main <span class="pl-smi">${PLPLOT_LIBRARIES}</span>)</td>
-      </tr>
-      <tr>
-        <td id="L33" class="blob-num js-line-number" data-line-number="33"></td>
-        <td id="LC33" class="blob-code blob-code-inner js-file-line"><span class="pl-c1">add_dependencies</span>(main symlink)</td>
-      </tr>
-      <tr>
-        <td id="L34" class="blob-num js-line-number" data-line-number="34"></td>
-        <td id="LC34" class="blob-code blob-code-inner js-file-line">
-</td>
-      </tr>
-      <tr>
-        <td id="L35" class="blob-num js-line-number" data-line-number="35"></td>
-        <td id="LC35" class="blob-code blob-code-inner js-file-line"><span class="pl-c1">set</span>(FORD_EXECUTABLE <span class="pl-s">&quot;ford&quot;</span>)</td>
-      </tr>
-      <tr>
-        <td id="L36" class="blob-num js-line-number" data-line-number="36"></td>
-        <td id="LC36" class="blob-code blob-code-inner js-file-line"><span class="pl-c1">add_custom_target</span>(ford</td>
-      </tr>
-      <tr>
-        <td id="L37" class="blob-num js-line-number" data-line-number="37"></td>
-        <td id="LC37" class="blob-code blob-code-inner js-file-line">	<span class="pl-k">COMMAND</span> <span class="pl-smi">${CMAKE_COMMAND}</span> -E copy_directory <span class="pl-s">&quot;<span class="pl-smi">${CMAKE_SOURCE_DIR}</span>/pages&quot;</span> <span class="pl-s">&quot;<span class="pl-smi">${CMAKE_BINARY_DIR}</span>/pages&quot;</span></td>
-      </tr>
-      <tr>
-        <td id="L38" class="blob-num js-line-number" data-line-number="38"></td>
-        <td id="LC38" class="blob-code blob-code-inner js-file-line">	<span class="pl-k">COMMAND</span> <span class="pl-smi">${CMAKE_COMMAND}</span> -E copy_directory <span class="pl-s">&quot;<span class="pl-smi">${CMAKE_SOURCE_DIR}</span>/src&quot;</span> <span class="pl-s">&quot;<span class="pl-smi">${CMAKE_BINARY_DIR}</span>/src&quot;</span></td>
-      </tr>
-      <tr>
-        <td id="L39" class="blob-num js-line-number" data-line-number="39"></td>
-        <td id="LC39" class="blob-code blob-code-inner js-file-line">	<span class="pl-k">COMMAND</span> <span class="pl-smi">${CMAKE_COMMAND}</span> -E copy <span class="pl-s">&quot;<span class="pl-smi">${CMAKE_SOURCE_DIR}</span>/project.md&quot;</span> <span class="pl-s">&quot;<span class="pl-smi">${CMAKE_BINARY_DIR}</span>&quot;</span></td>
-      </tr>
-      <tr>
-        <td id="L40" class="blob-num js-line-number" data-line-number="40"></td>
-        <td id="LC40" class="blob-code blob-code-inner js-file-line">	<span class="pl-k">COMMAND</span> <span class="pl-smi">${CMAKE_COMMAND}</span> -E copy <span class="pl-s">&quot;<span class="pl-smi">${CMAKE_SOURCE_DIR}</span>/README.md&quot;</span> <span class="pl-s">&quot;<span class="pl-smi">${CMAKE_BINARY_DIR}</span>&quot;</span></td>
-      </tr>
-      <tr>
-        <td id="L41" class="blob-num js-line-number" data-line-number="41"></td>
-        <td id="LC41" class="blob-code blob-code-inner js-file-line">	<span class="pl-k">COMMAND</span> <span class="pl-smi">${FORD_EXECUTABLE}</span> <span class="pl-s">&quot;project.md&quot;</span></td>
-      </tr>
-      <tr>
-        <td id="L42" class="blob-num js-line-number" data-line-number="42"></td>
-        <td id="LC42" class="blob-code blob-code-inner js-file-line">	<span class="pl-k">WORKING_DIRECTORY</span> <span class="pl-s">&quot;<span class="pl-smi">${CMAKE_BINARY_DIR}</span>&quot;</span>)</td>
-      </tr>
-</table>
+<p>The Mark 1 MD code is a developmental MD code with the intent of first duplicating the basic operation of Lammps.
+After comparison with Lammps suggests that all basic operations are implemented correctly the real numbers will be replaced with dual numbers for automatic differentiation of the code's results.</p>
 
+<h2><a id="user-content-units" class="anchor" href="#units" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" role="img" version="1.1" viewBox="0 0 16 16" width="16"><path d="M4 9h1v1h-1c-1.5 0-3-1.69-3-3.5s1.55-3.5 3-3.5h4c1.45 0 3 1.69 3 3.5 0 1.41-0.91 2.72-2 3.25v-1.16c0.58-0.45 1-1.27 1-2.09 0-1.28-1.02-2.5-2-2.5H4c-0.98 0-2 1.22-2 2.5s1 2.5 2 2.5z m9-3h-1v1h1c1 0 2 1.22 2 2.5s-1.02 2.5-2 2.5H9c-0.98 0-2-1.22-2-2.5 0-0.83 0.42-1.64 1-2.09v-1.16c-1.09 0.53-2 1.84-2 3.25 0 1.81 1.55 3.5 3 3.5h4c1.45 0 3-1.69 3-3.5s-1.5-3.5-3-3.5z"></path></svg></a>Units</h2>
+
+<p>The units commonly used for MD simulations vary, but are frequently the so-called metal units, as shown in the table below.</p>
+
+<table><thead>
+<tr>
+<th>Quantity</th>
+<th>Unit</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>mass</td>
+<td>grams/mole</td>
+</tr>
+<tr>
+<td>distance</td>
+<td>Angstroms</td>
+</tr>
+<tr>
+<td>time</td>
+<td>picoseconds</td>
+</tr>
+<tr>
+<td>energy</td>
+<td>eV</td>
+</tr>
+<tr>
+<td>velocity</td>
+<td>Angstroms/picosecond</td>
+</tr>
+<tr>
+<td>force</td>
+<td>eV/Angstrom</td>
+</tr>
+<tr>
+<td>torque</td>
+<td>eV</td>
+</tr>
+<tr>
+<td>temperature</td>
+<td>Kelvin</td>
+</tr>
+<tr>
+<td>pressure</td>
+<td>bars</td>
+</tr>
+<tr>
+<td>charge</td>
+<td>multiple of electron charge</td>
+</tr>
+<tr>
+<td>dipole</td>
+<td>charge*Angstroms</td>
+</tr>
+<tr>
+<td>density</td>
+<td>gram/cm^dim</td>
+</tr>
+<tr>
+<td>dynamic viscosity</td>
+<td>Poise</td>
+</tr>
+<tr>
+<td>electric field</td>
+<td>volts/Angstrom</td>
+</tr>
+</tbody></table>
+
+<p>The Mark 1 code currently does all calculations in standard SI units and relies on proper floating point arithmetic to handle the scale differences.</p>
+</article>
   </div>
 
 </div>
@@ -835,7 +732,7 @@
       <svg aria-hidden="true" class="octicon octicon-mark-github" height="24" role="img" title="GitHub " version="1.1" viewBox="0 0 16 16" width="24"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59 0.4 0.07 0.55-0.17 0.55-0.38 0-0.19-0.01-0.82-0.01-1.49-2.01 0.37-2.53-0.49-2.69-0.94-0.09-0.23-0.48-0.94-0.82-1.13-0.28-0.15-0.68-0.52-0.01-0.53 0.63-0.01 1.08 0.58 1.23 0.82 0.72 1.21 1.87 0.87 2.33 0.66 0.07-0.52 0.28-0.87 0.51-1.07-1.78-0.2-3.64-0.89-3.64-3.95 0-0.87 0.31-1.59 0.82-2.15-0.08-0.2-0.36-1.02 0.08-2.12 0 0 0.67-0.21 2.2 0.82 0.64-0.18 1.32-0.27 2-0.27 0.68 0 1.36 0.09 2 0.27 1.53-1.04 2.2-0.82 2.2-0.82 0.44 1.1 0.16 1.92 0.08 2.12 0.51 0.56 0.82 1.27 0.82 2.15 0 3.07-1.87 3.75-3.65 3.95 0.29 0.25 0.54 0.73 0.54 1.48 0 1.07-0.01 1.93-0.01 2.2 0 0.21 0.15 0.46 0.55 0.38C13.71 14.53 16 11.53 16 8 16 3.58 12.42 0 8 0z"></path></svg>
 </a>
     <ul class="site-footer-links">
-      <li>&copy; 2016 <span title="0.07982s from github-fe126-cp1-prd.iad.github.net">GitHub</span>, Inc.</li>
+      <li>&copy; 2016 <span title="0.07999s from github-fe121-cp1-prd.iad.github.net">GitHub</span>, Inc.</li>
         <li><a href="https://github.com/site/terms" data-ga-click="Footer, go to terms, text:terms">Terms</a></li>
         <li><a href="https://github.com/site/privacy" data-ga-click="Footer, go to privacy, text:privacy">Privacy</a></li>
         <li><a href="https://github.com/security" data-ga-click="Footer, go to security, text:security">Security</a></li>

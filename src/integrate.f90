@@ -150,18 +150,31 @@ contains
 		do j=1, N_slabs
 			l = regionList(j*abc - abc, j*abc)
 			regions(k+1)%temps(j) = listTemp(l)
+			if (j==1) h = selectHot(l)
+			if (j==5) c = selectCold(l)
 		end do
+		
+		if (mod(k,10)==0) call swapAtoms(h,c)
 		
 	end subroutine rnemd
 	
-	subroutine swapV(k)
-		integer,  intent(in)::k
-		integer:: i,j, h, c
+	subroutine swapAtoms(h,c)
+		integer,  intent(in)::h,c
+		real(wp), dimension(3)::swapv
+		integer:: i,j
 		
+		swapv = atoms(h)%v
+		atoms(h)%v = atoms(c)%v
+		atoms(c)%v = swapv
+		
+		write(*,*) 'Hot atom:', h
+		write(*,*) 'Cold atom:', c
+		write(*,*) 'Hot id atom:', atoms(h)%atom_id
+		write(*,*) 'Cold id atom:', atoms(c)%atom_id
 		!h = selectHot(
 		
 		!end do
 		
-	end subroutine swapV
+	end subroutine swapAtoms
 
 end module integrate_mod
